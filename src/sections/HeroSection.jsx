@@ -13,7 +13,7 @@ import img7 from '../assets/hero7.jpg';
 
 const HeroSection = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+
   // Creating a larger pool of images
   const archProjects = [img1, img2, img3, img4, img5, img7, img1, img2, img3, img4, img5, img7];
 
@@ -84,83 +84,83 @@ const HeroSection = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
-          className="text-4xl md:text-5xl lg:text-[4rem] font-serif italic mb-6 text-black tracking-tight text-center leading-[1.1]"
+          className="text-4xl md:text-5xl lg:text-[4rem] font-serif italic mb-4 text-black tracking-tight text-center leading-[1.1]"
         >
           Seriously a good designer
         </motion.h1>
 
         {/* The Signature Pill Card with Floating Menu */}
         <div className="relative">
-            <AnimatePresence>
-                {isMenuOpen && (
-                    <motion.div 
-                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        className="absolute bottom-full right-0 mb-4 bg-[#1A1A1A] rounded-[20px] p-2 min-w-[180px] shadow-[0_20px_50px_rgba(0,0,0,0.4)] z-50 overflow-hidden"
-                    >
-                        <a 
-                            href="#" 
-                            className="flex items-center gap-3 px-4 py-3 text-white hover:bg-white/5 transition-colors rounded-[14px] group"
-                        >
-                            <div className="w-6 h-6 rounded-md bg-white/10 flex items-center justify-center text-[12px]">
-                                <FaLinkedinIn className="group-hover:scale-110 transition-transform" />
-                            </div>
-                            <span className="text-[14px] font-bold uppercase tracking-wide">Linkedin</span>
-                        </a>
-                        <div className="h-[1px] bg-white/5 mx-2 my-1" />
-                        <a 
-                            href="#" 
-                            className="flex items-center gap-3 px-4 py-3 text-white hover:bg-white/5 transition-colors rounded-[14px] group"
-                        >
-                            <div className="w-6 h-6 rounded-md bg-white/10 flex items-center justify-center text-[14px]">
-                                <HiOutlineDownload className="group-hover:scale-110 transition-transform" />
-                            </div>
-                            <span className="text-[14px] font-bold uppercase tracking-wide">Download CV</span>
-                        </a>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+          <AnimatePresence>
+            {isMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                className="absolute bottom-full right-0 mb-4 bg-[#1A1A1A] rounded-[20px] p-2 min-w-[180px] shadow-[0_20px_50px_rgba(0,0,0,0.4)] z-50 overflow-hidden"
+              >
+                <a
+                  href="#"
+                  className="flex items-center gap-3 px-4 py-3 text-white hover:bg-white/5 transition-colors rounded-[14px] group"
+                >
+                  <div className="w-6 h-6 rounded-md bg-white/10 flex items-center justify-center text-[12px]">
+                    <FaLinkedinIn className="group-hover:scale-110 transition-transform" />
+                  </div>
+                  <span className="text-[14px] font-bold uppercase tracking-wide">Linkedin</span>
+                </a>
+                <div className="h-[1px] bg-white/5 mx-2 my-1" />
+                <a
+                  href="#"
+                  className="flex items-center gap-3 px-4 py-3 text-white hover:bg-white/5 transition-colors rounded-[14px] group"
+                >
+                  <div className="w-6 h-6 rounded-md bg-white/10 flex items-center justify-center text-[14px]">
+                    <HiOutlineDownload className="group-hover:scale-110 transition-transform" />
+                  </div>
+                  <span className="text-[14px] font-bold uppercase tracking-wide">Download CV</span>
+                </a>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-            <motion.div
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="bg-[#1A1A1A] rounded-[12px] p-3 pr-8 flex items-center gap-5 w-auto min-w-[340px] md:min-w-[420px] shadow-[0_30px_70px_rgba(0,0,0,0.3)] cursor-default"
-            >
-                <div className="flex items-center gap-5">
-                    <div className="w-12 h-12 rounded-lg overflow-hidden shrink-0 bg-[#222222] p-1 shadow-inner">
-                        <img src={thumbImg} alt="Avatar" className="w-full h-full object-cover rounded-md" />
-                    </div>
-                    <div className="flex flex-col justify-center">
-                        <h3 className="text-lg md:text-xl font-black text-white tracking-[0.02em] uppercase leading-none mb-1">AKHIL NISHTALA</h3>
-                        <p className="text-[9px] md:text-[10px] text-zinc-500 font-bold tracking-[0.02em] uppercase opacity-80 truncate">
-                            PRODUCT DESIGNER, CREATIVE DESIGNER, UI UX DES...
-                        </p>
-                    </div>
-                </div>
+          >
+            <div className="flex items-center gap-5">
+              <div className="w-12 h-12 rounded-lg overflow-hidden shrink-0 bg-[#222222] p-1 shadow-inner">
+                <img src={thumbImg} alt="Avatar" className="w-full h-full object-cover rounded-md" />
+              </div>
+              <div className="flex flex-col justify-center">
+                <h3 className="text-lg md:text-xl font-black text-white tracking-[0.02em] uppercase leading-none mb-1">AKHIL NISHTALA</h3>
+                <p className="text-[9px] md:text-[10px] text-zinc-500 font-bold tracking-[0.02em] uppercase opacity-80 truncate">
+                  PRODUCT DESIGNER, CREATIVE DESIGNER, UI UX DES...
+                </p>
+              </div>
+            </div>
 
-                <div className="flex items-center pl-6 border-l border-white/10 py-1">
-                    {/* Interactive Menu Icon */}
-                    <div 
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="relative w-6 h-6 flex flex-col justify-center items-center gap-1.5 cursor-pointer group"
-                    >
-                        <motion.div 
-                            animate={isMenuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-                            className="w-6 h-[2.5px] bg-white rounded-full transition-colors group-hover:bg-zinc-400" 
-                        />
-                        <motion.div 
-                            animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-                            className="w-6 h-[2.5px] bg-white rounded-full transition-colors group-hover:bg-zinc-400" 
-                        />
-                        <motion.div 
-                            animate={isMenuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-                            className="w-6 h-[2.5px] bg-white rounded-full transition-colors group-hover:bg-zinc-400" 
-                        />
-                    </div>
-                </div>
-            </motion.div>
+            <div className="flex items-center pl-6 border-l border-white/10 py-1">
+              {/* Interactive Menu Icon */}
+              <div
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="relative w-6 h-6 flex flex-col justify-center items-center gap-1.5 cursor-pointer group"
+              >
+                <motion.div
+                  animate={isMenuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
+                  className="w-6 h-[2.5px] bg-white rounded-full transition-colors group-hover:bg-zinc-400"
+                />
+                <motion.div
+                  animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }}
+                  className="w-6 h-[2.5px] bg-white rounded-full transition-colors group-hover:bg-zinc-400"
+                />
+                <motion.div
+                  animate={isMenuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
+                  className="w-6 h-[2.5px] bg-white rounded-full transition-colors group-hover:bg-zinc-400"
+                />
+              </div>
+            </div>
+          </motion.div>
         </div>
 
         {/* Indicators */}

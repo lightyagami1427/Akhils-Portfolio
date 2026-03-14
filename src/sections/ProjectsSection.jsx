@@ -32,7 +32,7 @@ const ProjectCarousel = ({ images, title }) => {
     <div className="relative w-full overflow-hidden bg-white">
       <div 
         ref={containerRef} 
-        className="w-full h-[500px] flex items-center cursor-grab active:cursor-grabbing"
+        className="w-full py-12 flex cursor-grab active:cursor-grabbing"
       >
         <motion.div
           drag="x"
