@@ -3,6 +3,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [roleIndex, setRoleIndex] = useState(0);
+  const roles = ["product designer", "creative designer", "ui/ux designer", "ai designer"];
+
+  useEffect(() => {
+    const roleInterval = setInterval(() => {
+      setRoleIndex((prev) => (prev + 1) % roles.length);
+    }, 2500);
+    return () => clearInterval(roleInterval);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,7 +35,20 @@ const Navbar = () => {
         }`}>
           <div className="flex flex-col leading-none">
             <span className="font-bold tracking-tight text-white">akhil nishtala</span>
-            <span className="text-[10px] uppercase tracking-widest text-secondary mt-1">product designer</span>
+            <div className="h-[12px] overflow-hidden mt-1 relative w-[130px]">
+              <AnimatePresence mode="popLayout">
+                <motion.span
+                  key={roleIndex}
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -20, opacity: 0 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  className="text-[10px] uppercase tracking-widest text-secondary absolute left-0 whitespace-nowrap"
+                >
+                  {roles[roleIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </div>
           </div>
 
           <div className="hidden md:flex items-center gap-10 text-xs uppercase tracking-widest font-medium text-secondary">
@@ -34,9 +56,11 @@ const Navbar = () => {
             <a href="#about" className="hover:text-white transition-colors">My story</a>
           </div>
 
-          <button className="bg-white text-black px-6 py-2.5 rounded-full text-xs uppercase tracking-widest font-bold hover:scale-105 transition-transform active:scale-95 shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+          <a 
+            href="mailto:akhilnishtala14@gmail.com"
+            className="inline-block bg-white text-black px-6 py-2.5 rounded-full text-xs uppercase tracking-widest font-bold hover:scale-105 transition-transform active:scale-95 shadow-[0_0_15px_rgba(255,255,255,0.2)]">
             Hire me
-          </button>
+          </a>
         </div>
       </div>
     </motion.nav>

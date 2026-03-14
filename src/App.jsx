@@ -8,11 +8,14 @@ import StatementSection from './sections/StatementSection';
 import ExperienceSection from './sections/ExperienceSection';
 import ContactSection from './sections/ContactSection';
 
+import BottomBlur from './components/BottomBlur';
+
 function App() {
   useSmoothScroll();
 
   return (
-    <div className="bg-white text-black min-h-screen selection:bg-black selection:text-white">
+    <div className="bg-white text-black min-h-screen selection:bg-black selection:text-white relative">
+      <BottomBlur />
       <main>
         <HeroSection />
         <ProjectsSection />

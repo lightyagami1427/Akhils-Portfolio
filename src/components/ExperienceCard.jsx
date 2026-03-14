@@ -4,16 +4,17 @@ import { motion } from 'framer-motion';
 const ExperienceCard = ({ exp, index }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 100 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      viewport={{ once: true, margin: "100px" }}
+      transition={{ duration: 0.1, ease: "easeOut", delay: index * 0.05 }}
+      whileHover={{ scale: 1.02, x: 5 }}
       className="bg-zinc-50/50 p-6 rounded-[1.5rem] flex flex-row items-center gap-6 border border-transparent hover:border-black/5 hover:bg-zinc-50 transition-all duration-500 w-full"
     >
       <div className="w-16 h-16 rounded-[1.25rem] overflow-hidden flex items-center justify-center shrink-0">
-        <img src={exp.logo} alt={exp.company} className="w-full h-full object-contain" />
+        <img src={exp.logo} alt={exp.company} loading="lazy" className="w-full h-full object-contain" />
       </div>
-      
+
       <div className="flex-1">
         <h3 className="text-lg font-bold text-black leading-tight">{exp.role}</h3>
         <p className="text-zinc-500 text-sm font-medium">{exp.company}</p>
@@ -22,8 +23,8 @@ const ExperienceCard = ({ exp, index }) => {
       <div className="flex flex-col items-end gap-1 shrink-0">
         <div className="flex items-center gap-1.5">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#EF4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M12 22C16 18 20 14.4183 20 10C20 5.58172 16.4183 2 12 2C7.58172 2 4 5.58172 4 10C4 14.4183 8 18 12 22Z" stroke="#EF4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#EF4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M12 22C16 18 20 14.4183 20 10C20 5.58172 16.4183 2 12 2C7.58172 2 4 5.58172 4 10C4 14.4183 8 18 12 22Z" stroke="#EF4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
           <span className="text-sm font-serif italic font-bold text-black opacity-90">{exp.location}</span>
         </div>

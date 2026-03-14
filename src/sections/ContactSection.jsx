@@ -22,7 +22,7 @@ const ContactSection = () => {
   return (
     <footer id="contact" className="relative bg-white pt-32 pb-16 overflow-hidden">
       <div className="container mx-auto px-10">
-        
+
         {/* Main CTA Area */}
         <div className="flex flex-col items-center text-center mb-32">
           <motion.div
@@ -38,7 +38,7 @@ const ContactSection = () => {
             </span>
           </motion.div>
 
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -60,7 +60,7 @@ const ContactSection = () => {
             className="group relative inline-flex items-center gap-4 bg-[#1A1A1A] text-white px-12 py-6 rounded-full text-lg font-bold shadow-2xl overflow-hidden"
           >
             <span className="relative z-10 uppercase tracking-tighter">Get In Touch</span>
-            <motion.span 
+            <motion.span
               className="relative z-10 text-2xl"
               animate={{ x: [0, 5, 0] }}
               transition={{ repeat: Infinity, duration: 1.5 }}
@@ -126,13 +126,13 @@ const ContactSection = () => {
 
 
         {/* Bottom Bar */}
-        <div className="mt-32 pt-8 border-t border-zinc-50 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400">
+        <div className="mt-16 pt-8 border-t border-zinc-50 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400">
           <p>© {currentYear} ALL RIGHTS RESERVED</p>
           <div className="flex items-center gap-8">
             <motion.p whileHover={{ color: '#000' }} className="cursor-pointer">CURATED BY AKHIL</motion.p>
-            <motion.p 
+            <motion.p
               onClick={scrollToTop}
-              whileHover={{ color: '#000' }} 
+              whileHover={{ color: '#000' }}
               className="cursor-pointer"
             >
               BACK TO TOP ↑

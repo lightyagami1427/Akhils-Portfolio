@@ -6,7 +6,7 @@ const StatementSection = () => {
     <section className="py-40 bg-white relative overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="relative max-w-6xl mx-auto py-24 px-16">
-          
+
           {/* Top-Left Corner Border */}
           <div className="absolute top-0 left-0 w-32 h-32">
             <div className="absolute top-0 left-0 w-full h-full border-t-[3px] border-l-[3px] border-black rounded-tl-[100px]"></div>
@@ -24,13 +24,13 @@ const StatementSection = () => {
             transition={{ duration: 1, ease: "easeOut" }}
             className="text-center"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-[56px] font-black leading-[1.2] text-[#A1A1A1] tracking-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-[48px] font-bold leading-[1.2] text-[#A1A1A1] tracking-tight">
               Passionate about <span className="text-black">crafting intuitive</span> and engaging digital experiences. I design <span className="text-black">user-centered products</span> that balance creativity, usability, and meaningful impact.
             </h2>
-            
+
             {/* Signature Badge / Cursor */}
             <div className="mt-16 flex justify-center md:justify-end md:mr-24 relative">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
@@ -38,13 +38,19 @@ const StatementSection = () => {
               >
                 {/* Mouse Cursor Icon */}
                 <div className="absolute -top-6 -left-4">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="black">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="url(#cursor-gradient)">
+                    <defs>
+                      <linearGradient id="cursor-gradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#000" />
+                        <stop offset="100%" stopColor="rgba(0,0,0,0.8)" />
+                      </linearGradient>
+                    </defs>
                     <path d="M5.662 2.621l14.462 14.461-7.231 2.41-2.41 7.231-4.821-24.102z" />
                   </svg>
                 </div>
-                
+
                 {/* Pill Badge */}
-                <div className="bg-[#333333] text-white px-8 py-2.5 rounded-full text-sm font-bold tracking-wider shadow-xl border border-white/10">
+                <div className="bg-[#333333] text-white px-8 py-2.5 rounded-full text-sm font-medium tracking-[-0.03em] shadow-xl border border-white/10">
                   Akhil Nishtala
                 </div>
               </motion.div>

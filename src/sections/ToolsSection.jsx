@@ -5,7 +5,7 @@ import avatar from '../assets/avatar.png';
 
 const ToolsSection = () => {
   return (
-    <section className="py-24 bg-white overflow-hidden">
+    <section className="py-4 bg-white overflow-hidden">
       <div className="container mx-auto px-10">
         <div className="flex flex-col lg:flex-row items-center gap-16">
 
@@ -22,15 +22,17 @@ const ToolsSection = () => {
               {tools.map((tool, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: -50 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
+                  transition={{ delay: index * 0.1, type: "spring", stiffness: 100 }}
                   className="w-20 h-20 flex items-center justify-center transition-all duration-300 group"
                 >
                   <img
                     src={tool.iconImg}
                     alt={tool.name}
-                    className="w-full h-full object-contain transition-all duration-500"
+                    loading="lazy"
+                    whileHover={{ scale: 1.2, rotate: 5 }}
+                    className="w-full h-full object-contain transition-all duration-300"
                   />
                 </motion.div>
               ))}
@@ -45,9 +47,12 @@ const ToolsSection = () => {
               transition={{ duration: 1, ease: "easeOut" }}
               className="w-full max-w-[500px]"
             >
-              <img
+              <motion.img
                 src={avatar}
                 alt="Avatar with headphones"
+                loading="lazy"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.3 }}
                 className="w-full h-auto object-contain"
               />
             </motion.div>

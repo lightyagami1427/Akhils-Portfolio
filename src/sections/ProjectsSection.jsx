@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useMotionValue } from 'framer-motion';
+import { motion, useMotionValue, AnimatePresence } from 'framer-motion';
 import { projects } from '../data/portfolio';
 
 const ProjectCarousel = ({ images }) => {
@@ -10,7 +10,7 @@ const ProjectCarousel = ({ images }) => {
 
   // Create a virtual circular array by repeating the images multiple times
   const extendedImages = Array.from({ length: 11 }).flatMap(() => images);
-  
+
   // Start perfectly in the middle block so dragging in either direction is safe
   const [activeIdx, setActiveIdx] = useState(images.length * 5);
 
@@ -25,25 +25,18 @@ const ProjectCarousel = ({ images }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Auto-play interval that continuously loops in one direction uniformly
-  useEffect(() => {
-    if (isHovered) return;
-    const timer = setInterval(() => {
-      setActiveIdx((prevIdx) => prevIdx + 1);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, [isHovered]);
+
 
   // Slide width calculation
   const slideWidth = width > 768 ? width * 0.75 : width * 0.85;
-  const gap = 30;
+  const gap = 8;
   const totalSlideWidth = slideWidth + gap;
   const centerPadding = width ? (width - slideWidth) / 2 : 100;
 
   return (
     <div className="relative w-full overflow-hidden bg-white">
-      <div 
-        ref={containerRef} 
+      <div
+        ref={containerRef}
         className="w-full py-12 flex cursor-grab active:cursor-grabbing"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -52,35 +45,35 @@ const ProjectCarousel = ({ images }) => {
       >
         <motion.div
           drag="x"
-          dragConstraints={{ 
-            left: -(extendedImages.length - 1) * totalSlideWidth, 
-            right: 0 
+          dragConstraints={{
+            left: -(extendedImages.length - 1) * totalSlideWidth,
+            right: 0
           }}
           dragElastic={0.2}
           style={{ x, paddingLeft: centerPadding }}
           onDragEnd={(_, info) => {
             const velocity = info.velocity.x;
             const currentX = x.get();
-            
+
             let nextIdx = Math.round(-currentX / totalSlideWidth);
-            
+
             // Allow flicking
             if (velocity < -400) nextIdx += 1;
             if (velocity > 400) nextIdx -= 1;
-            
+
             // Constrain within the virtual limits, practically infinite for User
             nextIdx = Math.max(0, Math.min(nextIdx, extendedImages.length - 1));
             setActiveIdx(nextIdx);
           }}
           animate={{ x: -activeIdx * totalSlideWidth }}
           transition={{ type: "spring", stiffness: 200, damping: 25 }}
-          className="flex gap-[30px]"
+          className="flex gap-[8px]"
         >
           {extendedImages.map((img, idx) => (
-            <CarouselItem 
-              key={`${idx}-${img}`} 
-              img={img} 
-              index={idx} 
+            <CarouselItem
+              key={`${idx}-${img}`}
+              img={img}
+              index={idx}
               activeIndex={activeIdx}
               slideWidth={slideWidth}
             />
@@ -116,13 +109,13 @@ const ProjectCarousel = ({ images }) => {
 
 const CarouselItem = ({ img, index, activeIndex, slideWidth }) => {
   const isFocused = index === activeIndex;
-  
+
   return (
     <motion.div
       animate={{
-        scale: isFocused ? 1 : 0.94,
-        filter: isFocused ? "blur(0px) grayscale(0%)" : "blur(1px) grayscale(100%)",
-        opacity: isFocused ? 1 : 0.8,
+        scale: 1,
+        filter: isFocused ? "blur(0px) grayscale(0%)" : "blur(2px) grayscale(50%)",
+        opacity: isFocused ? 1 : 0.5,
       }}
       transition={{ duration: 0.5, ease: "easeOut" }}
       style={{ width: slideWidth }}
@@ -131,23 +124,40 @@ const CarouselItem = ({ img, index, activeIndex, slideWidth }) => {
       <img
         src={img}
         alt={`Project slide ${index + 1}`}
+        loading="lazy"
         className="w-full h-full object-cover pointer-events-none"
       />
-      {/* Black and white gradient overlay effect for beside images */}
-      {!isFocused && (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="absolute inset-0 bg-gradient-to-tr from-white/60 to-transparent pointer-events-none mix-blend-screen"
-        />
-      )}
+      {/* Optional: Add a subtle inner shadow or gradient overlay */}
+      <div 
+        className="absolute inset-0 bg-gradient-to-tr from-white/60 to-transparent pointer-events-none mix-blend-screen"
+        style={{ opacity: isFocused ? 0 : 0.5 }}
+      />
+
+      {/* Drag Indicator */}
+      <AnimatePresence>
+        {isFocused && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="absolute bottom-6 right-6 md:bottom-8 md:right-8 bg-black px-4 py-2.5 rounded-full pointer-events-none shadow-xl flex items-center gap-2"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-white">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+            </svg>
+            <span className="text-[12px] tracking-[-0.03em] text-white font-medium whitespace-nowrap">
+              Drag and Scroll
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };
 
 const ProjectsSection = () => {
   return (
-    <section id="projects" className="py-32 text-black bg-white">
+    <section id="projects" className="py-16 text-black bg-white">
       <div className="w-full">
         {projects.map((project, index) => (
           <motion.div
@@ -155,7 +165,7 @@ const ProjectsSection = () => {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="mb-48"
+            className="mb-24"
           >
             {/* Project Carousel Area */}
             <div className="mb-16">
@@ -170,9 +180,13 @@ const ProjectsSection = () => {
                 </h2>
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
-                    <span key={tag} className="text-[10px] uppercase tracking-[0.2em] px-5 py-3 bg-[#f5f5f5] text-black font-bold border border-black/5">
+                    <motion.span 
+                      key={tag} 
+                      whileHover={{ scale: 1.05, backgroundColor: "#000000", color: "#ffffff" }}
+                      className="text-[10px] uppercase tracking-[0.2em] px-5 py-3 bg-[#f5f5f5] text-black font-bold border border-black/5 cursor-default"
+                    >
                       {tag}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
               </div>
@@ -185,7 +199,7 @@ const ProjectsSection = () => {
 
               <div className="md:col-span-1 md:text-right">
                 <p className="text-[10px] uppercase font-black tracking-widest text-zinc-300 mb-2">INDUSTRY</p>
-                <p className="text-xl font-bold italic">{project.industry}</p>
+                <p className="text-xl font-medium">{project.industry}</p>
               </div>
             </div>
           </motion.div>

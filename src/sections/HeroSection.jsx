@@ -22,7 +22,7 @@ const HeroSection = () => {
 
       {/* Top Navigation */}
       <div className="w-full flex justify-between items-start z-30 max-w-[1500px]">
-        <div className="flex gap-20 md:gap-40">
+        <div className="flex gap-8 sm:gap-20 md:gap-40 items-center">
           <div className="flex flex-col gap-1">
             <span className="text-[13px] font-black text-black uppercase tracking-tight">INDIA BASED</span>
             <span className="text-[13px] text-zinc-400 font-medium tracking-tight">Working Globally</span>
@@ -36,17 +36,18 @@ const HeroSection = () => {
             <span className="text-[13px] text-zinc-400 font-medium tracking-tight">Yes</span>
           </div>
         </div>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
+        <motion.a
+          href="mailto:akhilnishtala14@gmail.com"
+          whileHover={{ scale: 1.05, backgroundColor: "#333333" }}
           whileTap={{ scale: 0.95 }}
-          className="bg-[#1A1A1A] text-white px-10 py-3.5 rounded-full text-sm font-bold shadow-lg tracking-tight"
+          className="bg-[#1A1A1A] text-white px-6 sm:px-10 py-3 sm:py-3.5 rounded-full text-xs sm:text-sm font-bold shadow-lg shadow-black/20 tracking-tight transition-colors duration-300"
         >
           Get in Touch
-        </motion.button>
+        </motion.a>
       </div>
 
       {/* Rotating Project Arch */}
-      <div className="absolute top-[0%] left-1/2 -translate-x-1/2 w-[1600px] h-[1600px] pointer-events-none z-10 flex justify-center items-center">
+      <div className="absolute top-[120px] left-1/2 -translate-x-1/2 w-[1600px] h-[1450px] pointer-events-none z-10 flex justify-center items-center">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
@@ -84,7 +85,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
-          className="text-4xl md:text-5xl lg:text-[4rem] font-serif italic mb-4 text-black tracking-tight text-center leading-[1.1]"
+          className="text-4xl md:text-5xl lg:text-5xl font-serif italic mb-4 text-[#101010] text-center leading-[1.1] tracking-[-0.03em]"
         >
           Seriously a good designer
         </motion.h1>
@@ -129,9 +130,9 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="bg-[#1A1A1A] rounded-[12px] p-3 pr-8 flex items-center gap-5 w-auto min-w-[340px] md:min-w-[420px] shadow-[0_30px_70px_rgba(0,0,0,0.3)] cursor-default"
+            className="bg-[#1A1A1A] rounded-[12px] p-3 pr-6 sm:pr-8 flex items-center justify-between gap-3 sm:gap-5 w-auto min-w-[300px] sm:min-w-[340px] md:min-w-[420px] shadow-[0_30px_70px_rgba(0,0,0,0.3)] cursor-default"
           >
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-3 sm:gap-5">
               <div className="w-12 h-12 rounded-lg overflow-hidden shrink-0 bg-[#222222] p-1 shadow-inner">
                 <img src={thumbImg} alt="Avatar" className="w-full h-full object-cover rounded-md" />
               </div>
@@ -143,7 +144,7 @@ const HeroSection = () => {
               </div>
             </div>
 
-            <div className="flex items-center pl-6 border-l border-white/10 py-1">
+            <div className="flex items-center pl-4 sm:pl-6 border-l border-white/10 py-1">
               {/* Interactive Menu Icon */}
               <div
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
