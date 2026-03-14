@@ -29,43 +29,61 @@ const ProjectCarousel = ({ images, title }) => {
   const centerPadding = width ? (width - slideWidth) / 2 : 100;
 
   return (
-    <div 
-      ref={containerRef} 
-      className="relative w-full h-[550px] overflow-hidden bg-white cursor-grab active:cursor-grabbing flex items-center"
-    >
-      <motion.div
-        drag="x"
-        dragConstraints={{
-          left: -(images.length - 1) * totalSlideWidth,
-          right: 0,
-        }}
-        dragElastic={0.2}
-        style={{ x, paddingLeft: centerPadding }}
-        onDragEnd={(_, info) => {
-          const velocity = info.velocity.x;
-          const currentX = x.get();
-          
-          let nextIdx = Math.round(-currentX / totalSlideWidth);
-          
-          if (velocity < -400) nextIdx = Math.min(nextIdx + 1, images.length - 1);
-          if (velocity > 400) nextIdx = Math.max(nextIdx - 1, 0);
-          
-          setActiveIdx(nextIdx);
-        }}
-        animate={{ x: -activeIdx * totalSlideWidth }}
-        transition={{ type: "spring", stiffness: 200, damping: 25 }}
-        className="flex gap-[30px]"
+    <div className="relative w-full overflow-hidden bg-white">
+      <div 
+        ref={containerRef} 
+        className="w-full h-[500px] flex items-center cursor-grab active:cursor-grabbing"
       >
-        {images.map((img, idx) => (
-          <CarouselItem 
-            key={idx} 
-            img={img} 
-            index={idx} 
-            activeIndex={activeIdx}
-            slideWidth={slideWidth}
+        <motion.div
+          drag="x"
+          dragConstraints={{
+            left: -(images.length - 1) * totalSlideWidth,
+            right: 0,
+          }}
+          dragElastic={0.2}
+          style={{ x, paddingLeft: centerPadding }}
+          onDragEnd={(_, info) => {
+            const velocity = info.velocity.x;
+            const currentX = x.get();
+            
+            let nextIdx = Math.round(-currentX / totalSlideWidth);
+            
+            if (velocity < -400) nextIdx = Math.min(nextIdx + 1, images.length - 1);
+            if (velocity > 400) nextIdx = Math.max(nextIdx - 1, 0);
+            
+            setActiveIdx(nextIdx);
+          }}
+          animate={{ x: -activeIdx * totalSlideWidth }}
+          transition={{ type: "spring", stiffness: 200, damping: 25 }}
+          className="flex gap-[30px]"
+        >
+          {images.map((img, idx) => (
+            <CarouselItem 
+              key={idx} 
+              img={img} 
+              index={idx} 
+              activeIndex={activeIdx}
+              slideWidth={slideWidth}
+            />
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Sliding Dots Indicator */}
+      <div className="flex justify-center items-center gap-2 mt-4">
+        {images.map((_, idx) => (
+          <motion.div
+            key={idx}
+            onClick={() => setActiveIdx(idx)}
+            className="h-1.5 rounded-full cursor-pointer transition-colors"
+            animate={{
+              width: activeIdx === idx ? 24 : 6,
+              backgroundColor: activeIdx === idx ? "#000000" : "#D4D4D4"
+            }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
           />
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 };
