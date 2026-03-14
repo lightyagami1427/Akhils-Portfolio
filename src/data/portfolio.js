@@ -22,7 +22,7 @@ import v0Icon from '../assets/v0.png';
 import aIcon from '../assets/a.png';
 
 // Projects
-import project1 from '../assets/project1.png';
+import project11 from '../assets/project11.png';
 import project2 from '../assets/project2.png';
 import project3 from '../assets/project3.png';
 import project4 from '../assets/project4.png';
@@ -108,7 +108,7 @@ export const projects = [
     tags: ['UI DESIGN', 'UX RESEARCH', 'BRANDING'],
     year: '2023',
     image: project1,
-    images: [project1, hero1, hero2, hero3],
+    images: [project11, hero1, hero2, hero3],
     link: '#'
   },
   {

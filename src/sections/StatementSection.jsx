@@ -24,7 +24,7 @@ const StatementSection = () => {
             transition={{ duration: 1, ease: "easeOut" }}
             className="text-center"
           >
-            <h2 className="text-4xl md:text-6xl font-black leading-[1.2] text-[#A1A1A1] tracking-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-[56px] font-black leading-[1.2] text-[#A1A1A1] tracking-tight">
               Passionate about <span className="text-black">crafting intuitive</span> and engaging digital experiences. I design <span className="text-black">user-centered products</span> that balance creativity, usability, and meaningful impact.
             </h2>
             

@@ -16,18 +16,18 @@ const ExperienceSection = () => {
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 1, ease: "easeOut" }}
-              className="relative w-full max-w-[550px]"
+              className="relative w-full max-w-[550px] aspect-[4/5] overflow-hidden rounded-3xl"
             >
               <img
                 src={avatarheadphonesImg}
                 alt="Akhil Nishtala Portrait"
-                className="w-full h-auto object-contain"
+                className="w-full h-full object-cover"
               />
             </motion.div>
           </div>
 
           {/* Right Side: Experience List */}
-          <div className="flex-1 flex flex-col gap-4">
+          <div className="flex-1 flex flex-col justify-center gap-4">
             {experience.map((exp, index) => (
               <ExperienceCard key={index} exp={exp} index={index} />
             ))}

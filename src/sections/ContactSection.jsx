@@ -43,14 +43,14 @@ const ContactSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-5xl md:text-7xl lg:text-[6rem] font-serif italic text-black leading-tight tracking-tight mb-12"
+            className="text-5xl md:text-7xl lg:text-[6rem] font-serif italic text-black leading-[1] tracking-tight mb-12"
           >
             Let's create something <br />
             <span className="text-zinc-300">extraordinary.</span>
           </motion.h2>
 
           <motion.a
-            href="mailto:hello@akhil.design"
+            href="mailto:akhilnishtala14@gmail.com"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.05 }}
