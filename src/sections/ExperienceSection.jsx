@@ -21,7 +21,6 @@ const ExperienceSection = () => {
               <img
                 src={avatarheadphonesImg}
                 alt="Akhil Nishtala Portrait"
-                loading="lazy"
                 className="w-full h-full object-cover object-[center_20%]"
               />
             </motion.div>

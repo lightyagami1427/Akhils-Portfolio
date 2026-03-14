@@ -124,7 +124,6 @@ const CarouselItem = ({ img, index, activeIndex, slideWidth }) => {
       <img
         src={img}
         alt={`Project slide ${index + 1}`}
-        loading="lazy"
         className="w-full h-full object-cover pointer-events-none"
       />
       {/* Optional: Add a subtle inner shadow or gradient overlay */}

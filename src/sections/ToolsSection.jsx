@@ -27,10 +27,9 @@ const ToolsSection = () => {
                   transition={{ delay: index * 0.1, type: "spring", stiffness: 100 }}
                   className="w-20 h-20 flex items-center justify-center transition-all duration-300 group"
                 >
-                  <img
+                  <motion.img
                     src={tool.iconImg}
                     alt={tool.name}
-                    loading="lazy"
                     whileHover={{ scale: 1.2, rotate: 5 }}
                     className="w-full h-full object-contain transition-all duration-300"
                   />
@@ -50,7 +49,6 @@ const ToolsSection = () => {
               <motion.img
                 src={avatar}
                 alt="Avatar with headphones"
-                loading="lazy"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
                 className="w-full h-auto object-contain"
