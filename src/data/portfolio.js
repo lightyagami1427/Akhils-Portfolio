@@ -133,7 +133,7 @@ export const projects = [
     industry: 'Sports Lab',
     tags: ['UI DESIGN', 'UX RESEARCH', 'BRANDING'],
     year: '2023',
-    image: project1,
+    image: project11,
     images: [project11, project12, project13, project14, project15, project16, project17],
     link: '#'
   },
@@ -146,7 +146,7 @@ export const projects = [
     industry: 'Technology',
     tags: ['UI DESIGN', 'ANIMATION'],
     year: '2023',
-    image: project2,
+    image: project21,
     images: [project21, project22, project23, project24, project25],
     link: '#'
   },
@@ -159,7 +159,7 @@ export const projects = [
     industry: 'Finance',
     tags: ['UI DESIGN', 'STRATEGY'],
     year: '2022',
-    image: project3,
+    image: project31,
     images: [project31, project32, project33, project34, project35, project36, project37],
     link: '#'
   },
@@ -172,7 +172,7 @@ export const projects = [
     industry: 'Real Estate',
     tags: ['PRODUCT DESIGN', 'UX SYSTEM'],
     year: '2024',
-    image: project4,
+    image: project41,
     images: [project41, project42, project43, project44, project45, project46],
     link: '#'
   }
