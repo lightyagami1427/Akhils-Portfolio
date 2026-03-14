@@ -84,22 +84,36 @@ const ContactSection = () => {
             <div className="flex flex-col gap-4">
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Socials</span>
               <ul className="flex flex-col gap-3">
-                {socialLinks.map((link) => (
-                  <motion.li key={link.name} whileHover={{ x: 5 }}>
-                    <a href={link.url} className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">
-                      {link.name}
-                    </a>
-                  </motion.li>
-                ))}
+                <motion.li whileHover={{ x: 5 }}>
+                  <a href="https://www.linkedin.com/in/nishtala-venkata-akhil-8086a5225/" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">LinkedIn</a>
+                </motion.li>
+                <motion.li whileHover={{ x: 5 }}>
+                  <a href="https://dribbble.com/akhilnishtala" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">Dribbble</a>
+                </motion.li>
+                <motion.li whileHover={{ x: 5 }}>
+                  <a href="https://x.com/Akhilnishtala" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">Twitter</a>
+                </motion.li>
+                <motion.li whileHover={{ x: 5 }}>
+                  <a href="https://www.instagram.com/___.___akhil___.___/" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">Instagram</a>
+                </motion.li>
               </ul>
             </div>
 
             <div className="flex flex-col gap-4">
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Contact</span>
               <ul className="flex flex-col gap-3">
-                <li><a href="#" className="text-sm font-bold text-black">Email</a></li>
-                <li><a href="#" className="text-sm font-bold text-black">Telegram</a></li>
-                <li><a href="#" className="text-sm font-bold text-black">WhatsApp</a></li>
+                <motion.li whileHover={{ x: 5 }}>
+                  <a href="mailto:akhilnishtala14@gmail.com" className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">Email</a>
+                </motion.li>
+                <motion.li whileHover={{ x: 5 }}>
+                  <a href="https://t.me/akhilnishtala" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">Telegram</a>
+                </motion.li>
+                <motion.li whileHover={{ x: 5 }}>
+                  <a href="https://wa.me/7337590891" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">WhatsApp</a>
+                </motion.li>
+                <motion.li whileHover={{ x: 5 }}>
+                  <a href="tel:+917337590891" className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">+91 7337 590 891</a>
+                </motion.li>
               </ul>
             </div>
 
@@ -109,6 +123,7 @@ const ContactSection = () => {
             </div>
           </div>
         </div>
+
 
         {/* Bottom Bar */}
         <div className="mt-32 pt-8 border-t border-zinc-50 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400">

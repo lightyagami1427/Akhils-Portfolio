@@ -100,7 +100,8 @@ const HeroSection = () => {
                 className="absolute bottom-full right-0 mb-4 bg-[#1A1A1A] rounded-[20px] p-2 min-w-[180px] shadow-[0_20px_50px_rgba(0,0,0,0.4)] z-50 overflow-hidden"
               >
                 <a
-                  href="#"
+                  href="https://www.linkedin.com/in/nishtala-venkata-akhil-8086a5225/"
+                  target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-3 px-4 py-3 text-white hover:bg-white/5 transition-colors rounded-[14px] group"
                 >
                   <div className="w-6 h-6 rounded-md bg-white/10 flex items-center justify-center text-[12px]">
@@ -110,7 +111,8 @@ const HeroSection = () => {
                 </a>
                 <div className="h-[1px] bg-white/5 mx-2 my-1" />
                 <a
-                  href="#"
+                  href="https://drive.google.com/file/d/1_U4P4x5MTGIJlp2rCh--KleK5QEioKKl/view?usp=sharing"
+                  target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-3 px-4 py-3 text-white hover:bg-white/5 transition-colors rounded-[14px] group"
                 >
                   <div className="w-6 h-6 rounded-md bg-white/10 flex items-center justify-center text-[14px]">
@@ -120,6 +122,7 @@ const HeroSection = () => {
                 </a>
               </motion.div>
             )}
+
           </AnimatePresence>
 
           <motion.div

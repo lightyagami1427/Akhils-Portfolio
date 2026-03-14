@@ -22,10 +22,36 @@ import v0Icon from '../assets/v0.png';
 import aIcon from '../assets/a.png';
 
 // Projects
-import project1 from '../assets/project11.png';
-import project2 from '../assets/project2.png';
-import project3 from '../assets/project3.png';
-import project4 from '../assets/project4.png';
+import project11 from '../assets/project11.png';
+import project12 from '../assets/project12.png';
+import project13 from '../assets/project13.png';
+import project14 from '../assets/project14.png';
+import project15 from '../assets/project15.png';
+import project16 from '../assets/project16.png';
+import project17 from '../assets/project17.png';
+
+import project21 from '../assets/project11.png';
+import project22 from '../assets/project22.png';
+import project23 from '../assets/project23.png';
+import project24 from '../assets/project24.png';
+import project25 from '../assets/project25.png';
+
+import project31 from '../assets/project31.png';
+import project32 from '../assets/project32.png';
+import project33 from '../assets/project33.png';
+import project34 from '../assets/project34.png';
+import project35 from '../assets/project35.png';
+import project36 from '../assets/project36.png';
+import project37 from '../assets/project37.png';
+
+import project41 from '../assets/project41.png';
+import project42 from '../assets/project42.png';
+import project43 from '../assets/project43.png';
+import project44 from '../assets/project44.png';
+import project45 from '../assets/project45.png';
+import project46 from '../assets/project46.png';
+
+
 import hero1 from '../assets/hero1.jpg';
 import hero2 from '../assets/hero2.jpg';
 import hero3 from '../assets/hero3.jpg';
@@ -108,7 +134,7 @@ export const projects = [
     tags: ['UI DESIGN', 'UX RESEARCH', 'BRANDING'],
     year: '2023',
     image: project1,
-    images: [project1, hero1, hero2, hero3],
+    images: [project11, project12, project13, project14, project15, project16, project17],
     link: '#'
   },
   {
@@ -121,7 +147,7 @@ export const projects = [
     tags: ['UI DESIGN', 'ANIMATION'],
     year: '2023',
     image: project2,
-    images: [project2, hero4, hero5, hero6],
+    images: [project21, project22, project23, project24, project25],
     link: '#'
   },
   {
@@ -134,7 +160,7 @@ export const projects = [
     tags: ['UI DESIGN', 'STRATEGY'],
     year: '2022',
     image: project3,
-    images: [project3, hero7, hero1, hero2],
+    images: [project31, project32, project33, project34, project35, project36, project37],
     link: '#'
   },
   {
@@ -147,7 +173,7 @@ export const projects = [
     tags: ['PRODUCT DESIGN', 'UX SYSTEM'],
     year: '2024',
     image: project4,
-    images: [project4, hero3, hero4, hero5],
+    images: [project41, project42, project43, project44, project45, project46],
     link: '#'
   }
 ];

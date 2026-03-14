@@ -19,6 +19,14 @@ const ProjectCarousel = ({ images, title }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Auto-play infinite loop
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIdx((prevIdx) => (prevIdx + 1) % images.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [images.length]);
+
   // Slide width calculation
   const slideWidth = width > 768 ? width * 0.75 : width * 0.85;
   const gap = 30; // Increased gap for clarity
