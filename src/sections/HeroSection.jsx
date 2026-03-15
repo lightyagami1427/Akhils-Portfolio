@@ -125,7 +125,7 @@ const HeroSection = ({ theme, toggleTheme }) => {
                 </a>
                 <div className="h-[1px] bg-background/5 mx-2 my-1" />
                 <a
-                  href="https://drive.google.com/file/d/1_U4P4x5MTGIJlp2rCh--KleK5QEioKKl/view?usp=sharing"
+                  href="https://drive.google.com/file/d/1UyKizYEtMjrhS80yAu23LXPWxWQIhPmc/view?usp=sharing"
                   target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-3 px-4 py-3 text-background hover:bg-background/5 transition-colors rounded-[14px] group"
                 >
