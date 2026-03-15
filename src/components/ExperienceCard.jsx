@@ -11,7 +11,7 @@ const ExperienceCard = ({ exp, index }) => {
       whileHover={{ scale: 1.02, x: 5 }}
       className="bg-zinc-50/50 p-6 rounded-[1.5rem] flex flex-row items-center gap-6 border border-transparent hover:border-black/5 hover:bg-zinc-50 transition-all duration-500 w-full"
     >
-      <div className="w-16 h-16 rounded-[1.25rem] overflow-hidden flex items-center justify-center shrink-0">
+      <div className="w-16 h-16 rounded-[0rem] overflow-hidden flex items-center justify-center shrink-0">
         <img src={exp.logo} alt={exp.company} className="w-full h-full object-contain" />
       </div>
 
