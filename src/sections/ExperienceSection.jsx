@@ -16,6 +16,7 @@ const ExperienceSection = () => {
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 1, ease: "easeOut" }}
+              style={{ translateZ: 0 }}
               className="relative w-full h-full min-h-[400px] overflow-hidden rounded-3xl -mt-[5px]"
             >
               <img

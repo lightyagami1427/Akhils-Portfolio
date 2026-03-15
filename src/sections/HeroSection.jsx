@@ -65,7 +65,7 @@ const HeroSection = () => {
                 style={{
                   marginLeft: '-92px',
                   marginTop: '-130px',
-                  transform: `rotate(${angle}deg) translate(${radius}px) rotate(90deg)`
+                  transform: `rotate(${angle}deg) translate(${radius}px) rotate(90deg) translateZ(0)`
                 }}
               >
                 <img

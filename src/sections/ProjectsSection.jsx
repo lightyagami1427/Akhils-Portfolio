@@ -115,7 +115,9 @@ const CarouselItem = ({ img, index, activeIndex, slideWidth }) => {
       animate={{
         scale: 1,
         filter: isFocused ? "blur(0px) grayscale(0%)" : "blur(2px) grayscale(50%)",
+        WebkitFilter: isFocused ? "blur(0px) grayscale(0%)" : "blur(2px) grayscale(50%)",
         opacity: isFocused ? 1 : 0.5,
+        translateZ: 0
       }}
       transition={{ duration: 0.5, ease: "easeOut" }}
       style={{ width: slideWidth }}

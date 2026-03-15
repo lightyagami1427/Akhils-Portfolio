@@ -50,6 +50,11 @@ import project43 from '../assets/project43.png';
 import project44 from '../assets/project44.png';
 import project45 from '../assets/project45.png';
 import project46 from '../assets/project46.png';
+import project47 from '../assets/project47.png';
+import project48 from '../assets/project48.png';
+import project49 from '../assets/project49.png';
+import project50 from '../assets/project50.png';
+import project51 from '../assets/project51.png';
 
 export const experience = [
   {
@@ -115,6 +120,19 @@ export const tools = [
 ];
 
 export const projects = [
+  {
+    id: 5,
+    title: 'BrightCode Agency',
+    category: 'UI UX Design',
+    shortDescription: 'Sophisticated web solutions for smart agencies.',
+    description: 'The goal was to build a website that establishes trust in the services market and clearly communicates BrightCodes end-to-end AI expertise.',
+    industry: 'Tech Services',
+    tags: ['BRANDING', 'UX DESIGN', 'UI DESIGN'],
+    year: '2025',
+    image: project47,
+    images: [project47, project48, project49, project50, project51],
+    link: '#'
+  },
   {
     id: 1,
     title: 'Specter',
