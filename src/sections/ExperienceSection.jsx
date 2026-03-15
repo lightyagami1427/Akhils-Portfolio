@@ -6,7 +6,7 @@ import avatarheadphonesImg from '../assets/avatar_headphones.png';
 
 const ExperienceSection = () => {
   return (
-    <section className="py-24 bg-white overflow-hidden">
+    <section className="py-24 bg-background transition-colors duration-300 overflow-hidden">
       <div className="container mx-auto px-10">
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-stretch">
 
@@ -30,10 +30,10 @@ const ExperienceSection = () => {
           {/* Right Side: Experience List */}
           <div className="flex-1 flex flex-col justify-center gap-5 py-2">
             <div className="flex items-center gap-2 mb-2 ml-2">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="text-black">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="text-primary">
                 <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
               </svg>
-              <h3 className="text-[12px] font-black tracking-tight text-black uppercase">
+              <h3 className="text-[12px] font-black tracking-tight text-primary uppercase">
                 COMPANIES THAT DIDN'T SAY "WE WILL GET BACK TO YOU"
               </h3>
             </div>

@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
-import Navbar from './components/Navbar';
 import HeroSection from './sections/HeroSection';
 import ProjectsSection from './sections/ProjectsSection';
 import ToolsSection from './sections/ToolsSection';
@@ -12,12 +11,32 @@ import BottomBlur from './components/BottomBlur';
 
 function App() {
   useSmoothScroll();
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') || 'light';
+    }
+    return 'light';
+  });
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
 
   return (
-    <div className="bg-white text-black min-h-screen selection:bg-black selection:text-white relative">
+    <div className="bg-background text-primary min-h-screen transition-colors duration-300 relative">
       <BottomBlur />
       <main>
-        <HeroSection />
+        <HeroSection theme={theme} toggleTheme={toggleTheme} />
         <ProjectsSection />
         <ToolsSection />
         <StatementSection />

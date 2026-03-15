@@ -3,18 +3,18 @@ import { motion } from 'framer-motion';
 
 const StatementSection = () => {
   return (
-    <section className="py-40 bg-white relative overflow-hidden">
+    <section className="py-40 bg-background relative overflow-hidden transition-colors duration-300">
       <div className="container mx-auto px-6">
         <div className="relative max-w-6xl mx-auto py-24 px-16">
 
           {/* Top-Left Corner Border */}
           <div className="absolute top-0 left-0 w-32 h-32">
-            <div className="absolute top-0 left-0 w-full h-full border-t-[3px] border-l-[3px] border-black rounded-tl-[100px]"></div>
+            <div className="absolute top-0 left-0 w-full h-full border-t-[3px] border-l-[3px] border-primary rounded-tl-[100px] opacity-20"></div>
           </div>
 
           {/* Bottom-Right Corner Border */}
           <div className="absolute bottom-0 right-0 w-32 h-32">
-            <div className="absolute bottom-0 right-0 w-full h-full border-b-[3px] border-r-[3px] border-black rounded-br-[100px]"></div>
+            <div className="absolute bottom-0 right-0 w-full h-full border-b-[3px] border-r-[3px] border-primary rounded-br-[100px] opacity-20"></div>
           </div>
 
           <motion.div
@@ -24,8 +24,8 @@ const StatementSection = () => {
             transition={{ duration: 1, ease: "easeOut" }}
             className="text-center"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-[48px] font-bold leading-[1.2] text-[#A1A1A1] tracking-tight">
-              Passionate about <span className="text-black">crafting intuitive</span> and engaging digital experiences. I design <span className="text-black">user-centered products</span> that balance creativity, usability, and meaningful impact.
+            <h2 className="text-4xl md:text-5xl lg:text-[48px] font-bold leading-[1.2] text-zinc-400 dark:text-zinc-500 tracking-tight">
+              Passionate about <span className="text-primary">crafting intuitive</span> and engaging digital experiences. I design <span className="text-primary">user-centered products</span> that balance creativity, usability, and meaningful impact.
             </h2>
 
             {/* Signature Badge / Cursor */}
@@ -41,8 +41,8 @@ const StatementSection = () => {
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="url(#cursor-gradient)">
                     <defs>
                       <linearGradient id="cursor-gradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#000" />
-                        <stop offset="100%" stopColor="rgba(0,0,0,0.8)" />
+                        <stop offset="0%" stopColor="var(--color-primary)" />
+                        <stop offset="100%" stopColor="var(--color-primary)" stopOpacity="0.8" />
                       </linearGradient>
                     </defs>
                     <path d="M5.662 2.621l14.462 14.461-7.231 2.41-2.41 7.231-4.821-24.102z" />
@@ -50,7 +50,7 @@ const StatementSection = () => {
                 </div>
 
                 {/* Pill Badge */}
-                <div className="bg-[#333333] text-white px-8 py-2.5 rounded-full text-sm font-medium tracking-[-0.03em] shadow-xl border border-white/10">
+                <div className="bg-primary text-background px-8 py-2.5 rounded-full text-sm font-medium tracking-[-0.03em] shadow-xl border border-primary/10">
                   Akhil Nishtala
                 </div>
               </motion.div>

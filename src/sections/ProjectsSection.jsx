@@ -34,7 +34,7 @@ const ProjectCarousel = ({ images }) => {
   const centerPadding = width ? (width - slideWidth) / 2 : 100;
 
   return (
-    <div className="relative w-full overflow-hidden bg-white">
+    <div className="relative w-full overflow-hidden bg-background transition-colors duration-300">
       <div
         ref={containerRef}
         className="w-full py-12 flex cursor-grab active:cursor-grabbing"
@@ -96,7 +96,7 @@ const ProjectCarousel = ({ images }) => {
               className="h-1.5 rounded-full cursor-pointer transition-colors"
               animate={{
                 width: isActiveDot ? 24 : 6,
-                backgroundColor: isActiveDot ? "#000000" : "#D4D4D4"
+                backgroundColor: isActiveDot ? "var(--color-primary)" : "var(--color-secondary)"
               }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             />
@@ -121,7 +121,7 @@ const CarouselItem = ({ img, index, activeIndex, slideWidth }) => {
       }}
       transition={{ duration: 0.5, ease: "easeOut" }}
       style={{ width: slideWidth }}
-      className={`relative shrink-0 aspect-[16/9] overflow-hidden bg-[#f4f4f4] ${isFocused ? 'shadow-xl' : 'border border-black/5'}`}
+      className={`relative shrink-0 aspect-[16/9] overflow-hidden bg-card ${isFocused ? 'shadow-xl shadow-black/20' : 'border border-primary/5'}`}
     >
       <img
         src={img}
@@ -130,7 +130,7 @@ const CarouselItem = ({ img, index, activeIndex, slideWidth }) => {
       />
       {/* Optional: Add a subtle inner shadow or gradient overlay */}
       <div 
-        className="absolute inset-0 bg-gradient-to-tr from-white/60 to-transparent pointer-events-none mix-blend-screen"
+        className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent pointer-events-none mix-blend-overlay"
         style={{ opacity: isFocused ? 0 : 0.5 }}
       />
 
@@ -141,12 +141,12 @@ const CarouselItem = ({ img, index, activeIndex, slideWidth }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            className="absolute bottom-6 right-6 md:bottom-8 md:right-8 bg-black px-4 py-2.5 rounded-full pointer-events-none shadow-xl flex items-center gap-2"
+            className="absolute bottom-6 right-6 md:bottom-8 md:right-8 bg-primary px-4 py-2.5 rounded-full pointer-events-none shadow-xl flex items-center gap-2"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-white">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-background">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
             </svg>
-            <span className="text-[12px] tracking-[-0.03em] text-white font-medium whitespace-nowrap">
+            <span className="text-[12px] tracking-[-0.03em] text-background font-medium whitespace-nowrap">
               Drag and Scroll
             </span>
           </motion.div>
@@ -158,7 +158,7 @@ const CarouselItem = ({ img, index, activeIndex, slideWidth }) => {
 
 const ProjectsSection = () => {
   return (
-    <section id="projects" className="py-16 text-black bg-white">
+    <section id="projects" className="py-16 text-primary bg-background transition-colors duration-300">
       <div className="w-full">
         {projects.map((project, index) => (
           <motion.div
@@ -183,8 +183,8 @@ const ProjectsSection = () => {
                   {project.tags.map((tag) => (
                     <motion.span 
                       key={tag} 
-                      whileHover={{ scale: 1.05, backgroundColor: "#000000", color: "#ffffff" }}
-                      className="text-[10px] uppercase tracking-[0.2em] px-5 py-3 bg-[#f5f5f5] text-black font-bold border border-black/5 cursor-default"
+                      whileHover={{ scale: 1.05, backgroundColor: "var(--color-primary)", color: "var(--color-background)" }}
+                      className="text-[10px] uppercase tracking-[0.2em] px-5 py-3 bg-card text-primary font-bold border border-primary/5 cursor-default transition-colors duration-300"
                     >
                       {tag}
                     </motion.span>
@@ -193,13 +193,13 @@ const ProjectsSection = () => {
               </div>
 
               <div className="md:col-span-1">
-                <p className="text-zinc-500 text-sm leading-relaxed mb-6">
+                <p className="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed mb-6">
                   {project.description}
                 </p>
               </div>
 
               <div className="md:col-span-1 md:text-right">
-                <p className="text-[10px] uppercase font-black tracking-widest text-zinc-300 mb-2">INDUSTRY</p>
+                <p className="text-[10px] uppercase font-black tracking-widest text-zinc-300 dark:text-zinc-600 mb-2">INDUSTRY</p>
                 <p className="text-xl font-medium">{project.industry}</p>
               </div>
             </div>

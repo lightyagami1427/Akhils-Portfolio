@@ -9,15 +9,15 @@ const ExperienceCard = ({ exp, index }) => {
       viewport={{ once: true, margin: "100px" }}
       transition={{ duration: 0.1, ease: "easeOut", delay: index * 0.05 }}
       whileHover={{ scale: 1.02, x: 5 }}
-      className="bg-zinc-50/50 p-6 rounded-[1.5rem] flex flex-row items-center gap-6 border border-transparent hover:border-black/5 hover:bg-zinc-50 transition-all duration-500 w-full"
+      className="bg-card p-6 rounded-[1.5rem] flex flex-row items-center gap-6 border border-transparent hover:border-primary/10 transition-all duration-500 w-full"
     >
-      <div className="w-16 h-16 rounded-[0rem] overflow-hidden flex items-center justify-center shrink-0">
-        <img src={exp.logo} alt={exp.company} className="w-full h-full object-contain" />
+      <div className="w-14 h-14 rounded-[8px] overflow-hidden flex items-center justify-center shrink-0 bg-white shadow-sm border border-primary/5">
+        <img src={exp.logo} alt={exp.company} className="w-10 h-10 object-contain" />
       </div>
 
       <div className="flex-1">
-        <h3 className="text-lg font-bold text-black leading-tight">{exp.role}</h3>
-        <p className="text-zinc-500 text-sm font-medium">{exp.company}</p>
+        <h3 className="text-lg font-bold text-primary leading-tight">{exp.role}</h3>
+        <p className="text-zinc-500 dark:text-zinc-400 text-sm font-medium">{exp.company}</p>
       </div>
 
       <div className="flex flex-col items-end gap-1 shrink-0">
@@ -26,9 +26,9 @@ const ExperienceCard = ({ exp, index }) => {
             <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#EF4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
             <path d="M12 22C16 18 20 14.4183 20 10C20 5.58172 16.4183 2 12 2C7.58172 2 4 5.58172 4 10C4 14.4183 8 18 12 22Z" stroke="#EF4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          <span className="text-sm font-serif italic font-bold text-black opacity-90">{exp.location}</span>
+          <span className="text-sm font-serif italic font-bold text-primary opacity-90">{exp.location}</span>
         </div>
-        <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-tight">{exp.duration}</span>
+        <span className="text-[11px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-tight">{exp.duration}</span>
       </div>
     </motion.div>
   );

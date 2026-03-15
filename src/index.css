@@ -5,11 +5,11 @@
   --color-primary: #000000;
   --color-secondary: #71717a;
   --color-card: rgba(0, 0, 0, 0.05);
-  
+
   --font-sans: "Inter", "system-ui", "sans-serif";
   --font-serif: "Instrument Serif", serif;
   --font-script: "Caveat", cursive;
-  
+
   --animate-float: float 3s ease-in-out infinite;
 
   @keyframes float {
@@ -18,9 +18,17 @@
   }
 }
 
+/* Dark mode overrides */
+.dark {
+  --color-background: #0a0a0a;
+  --color-primary: #ffffff;
+  --color-secondary: #a1a1aa;
+  --color-card: rgba(255, 255, 255, 0.05);
+}
+
 @layer base {
   body {
-    @apply bg-background text-primary antialiased selection:bg-black selection:text-white;
+    @apply bg-background text-primary antialiased selection:bg-primary selection:text-background;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02";
   }
 }

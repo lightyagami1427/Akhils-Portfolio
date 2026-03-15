@@ -26,9 +26,9 @@ const ContactSection = () => {
       <img
         src={icon}
         alt=""
-        className={`w-4 h-4 object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-300 ${name === 'Twitter' ? 'rounded-[3px]' : ''}`}
+        className="w-3 h-3 object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-300"
       />
-      <a href={href} target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">
+      <a href={href} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-primary hover:text-zinc-500 transition-colors">
         {name}
       </a>
     </motion.li>
@@ -39,16 +39,16 @@ const ContactSection = () => {
       <img
         src={icon}
         alt=""
-        className={`w-4 h-4 object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-300 ${isCall ? 'scale-[0.85]' : ''}`}
+        className={`w-3 h-3 object-contain opacity-60 group-hover:opacity-100 transition-all duration-300 ${isCall ? 'dark:invert' : ''}`}
       />
-      <a href={href} className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">
+      <a href={href} className="text-sm font-medium text-primary hover:text-zinc-500 transition-colors">
         {name}
       </a>
     </motion.li>
   );
 
   return (
-    <footer id="contact" className="relative bg-white pt-32 pb-16 overflow-hidden">
+    <footer id="contact" className="relative bg-background pt-32 pb-16 overflow-hidden transition-colors duration-300">
       <div className="container mx-auto px-10">
 
         {/* Main CTA Area */}
@@ -71,10 +71,10 @@ const ContactSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-5xl md:text-7xl lg:text-[6rem] font-serif italic text-black leading-[1] tracking-tight mb-12"
+            className="text-5xl md:text-7xl lg:text-[6rem] font-serif italic text-primary leading-[1] tracking-tight mb-12"
           >
             Let's create something <br />
-            <span className="text-zinc-300">extraordinary.</span>
+            <span className="text-zinc-300 dark:text-zinc-600">extraordinary.</span>
           </motion.h2>
 
           <motion.a
@@ -85,7 +85,7 @@ const ContactSection = () => {
             whileTap={{ scale: 0.95 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
-            className="group relative inline-flex items-center gap-4 bg-[#1A1A1A] text-white px-12 py-6 rounded-full text-lg font-bold shadow-2xl overflow-hidden"
+            className="group relative inline-flex items-center gap-4 bg-primary text-background px-12 py-6 rounded-full text-lg font-bold shadow-2xl overflow-hidden"
           >
             <span className="relative z-10 uppercase tracking-tighter">Get In Touch</span>
             <motion.span
@@ -95,15 +95,15 @@ const ContactSection = () => {
             >
               →
             </motion.span>
-            <div className="absolute inset-0 bg-gradient-to-r from-zinc-800 to-black opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-primary/2 transition-opacity"></div>
           </motion.a>
         </div>
 
         {/* Footer Links & Info */}
-        <div className="border-t border-zinc-100 pt-16 flex flex-col md:flex-row justify-between items-start gap-16">
+        <div className="border-t border-primary/5 pt-16 flex flex-col md:flex-row justify-between items-start gap-16">
           <div className="flex flex-col gap-6 max-w-sm">
-            <h3 className="text-xl font-black uppercase tracking-tight text-black">AKHIL NISHTALA</h3>
-            <p className="text-zinc-400 text-sm leading-relaxed">
+            <h3 className="text-xl font-black uppercase tracking-tight text-primary">AKHIL NISHTALA</h3>
+            <p className="text-zinc-400 dark:text-zinc-500 text-sm leading-relaxed">
               Based in India, working with clients globally to build digital products that feel as good as they look.
             </p>
           </div>
@@ -131,20 +131,20 @@ const ContactSection = () => {
 
             <div className="flex flex-col gap-4">
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Location</span>
-              <p className="text-sm font-bold text-black">Hyderabad, India <br /> GMT +5:30</p>
+              <p className="text-sm font-medium text-primary">Hyderabad, India <br /> GMT +5:30</p>
             </div>
           </div>
         </div>
 
 
         {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-zinc-50 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400">
+        <div className="mt-16 pt-8 border-t border-primary/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400">
           <p>© {currentYear} ALL RIGHTS RESERVED</p>
           <div className="flex items-center gap-8">
-            <motion.p whileHover={{ color: '#000' }} className="cursor-pointer">CURATED BY AKHIL</motion.p>
+            <motion.p whileHover={{ color: 'var(--color-primary)' }} className="cursor-pointer">CURATED BY AKHIL</motion.p>
             <motion.p
               onClick={scrollToTop}
-              whileHover={{ color: '#000' }}
+              whileHover={{ color: 'var(--color-primary)' }}
               className="cursor-pointer"
             >
               BACK TO TOP ↑
@@ -154,7 +154,7 @@ const ContactSection = () => {
       </div>
 
       {/* Background Decorative Element */}
-      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-zinc-50 rounded-full blur-[100px] pointer-events-none opacity-50"></div>
+      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-primary rounded-full blur-[100px] pointer-events-none opacity-10"></div>
     </footer>
   );
 };

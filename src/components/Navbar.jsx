@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FiSun, FiMoon } from 'react-icons/fi';
 
-const Navbar = () => {
+const Navbar = ({ theme, toggleTheme }) => {
   const [scrolled, setScrolled] = useState(false);
   const [roleIndex, setRoleIndex] = useState(0);
-  const roles = ["product designer", "creative designer", "ui/ux designer", "ai designer"];
+  const roles = ["Product Designer", "Creative Designer", "UI UX Designer"];
 
   useEffect(() => {
     const roleInterval = setInterval(() => {
       setRoleIndex((prev) => (prev + 1) % roles.length);
     }, 2500);
     return () => clearInterval(roleInterval);
-  }, []);
+  }, [roles.length]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,7 +35,7 @@ const Navbar = () => {
           scrolled ? 'max-w-4xl opacity-100' : 'max-w-full opacity-90'
         }`}>
           <div className="flex flex-col leading-none">
-            <span className="font-bold tracking-tight text-white">akhil nishtala</span>
+            <span className="font-bold tracking-tight text-primary">akhil nishtala</span>
             <div className="h-[12px] overflow-hidden mt-1 relative w-[130px]">
               <AnimatePresence mode="popLayout">
                 <motion.span
@@ -52,15 +53,25 @@ const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center gap-10 text-xs uppercase tracking-widest font-medium text-secondary">
-            <a href="#projects" className="hover:text-white transition-colors">Selected work</a>
-            <a href="#about" className="hover:text-white transition-colors">My story</a>
+            <a href="#projects" className="hover:text-primary transition-colors">Selected work</a>
+            <a href="#about" className="hover:text-primary transition-colors">My story</a>
           </div>
 
-          <a 
-            href="mailto:akhilnishtala14@gmail.com"
-            className="inline-block bg-white text-black px-6 py-2.5 rounded-full text-xs uppercase tracking-widest font-bold hover:scale-105 transition-transform active:scale-95 shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-            Hire me
-          </a>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={toggleTheme}
+              className="p-2.5 rounded-full bg-primary/5 hover:bg-primary/10 transition-colors text-primary flex items-center justify-center border border-primary/10"
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? <FiSun size={14} /> : <FiMoon size={14} />}
+            </button>
+            <a 
+              href="mailto:akhilnishtala14@gmail.com"
+              className="inline-block bg-primary text-background px-6 py-2.5 rounded-full text-xs uppercase tracking-widest font-bold hover:scale-105 transition-transform active:scale-95 shadow-[0_0_15px_rgba(var(--color-primary),0.2)]"
+            >
+              Hire me
+            </a>
+          </div>
         </div>
       </div>
     </motion.nav>
