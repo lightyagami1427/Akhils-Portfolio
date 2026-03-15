@@ -1,16 +1,18 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
+// Import footer icons
+import linkedinIcon from '../assets/linkedin.png';
+import dribbbleIcon from '../assets/dribbble.png';
+import xIcon from '../assets/x.png';
+import instagramIcon from '../assets/instagram.png';
+import gmailIcon from '../assets/gmail.png';
+import telegramIcon from '../assets/telegram.png';
+import whatsappIcon from '../assets/whatsapp.png';
+import callIcon from '../assets/call.png';
+
 const ContactSection = () => {
   const currentYear = new Date().getFullYear();
-
-  const socialLinks = [
-    { name: 'LinkedIn', url: '#' },
-    { name: 'Dribbble', url: '#' },
-    { name: 'Twitter (X)', url: '#' },
-    { name: 'Instagram', url: '#' },
-    { name: 'Read.cv', url: '#' },
-  ];
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -18,6 +20,32 @@ const ContactSection = () => {
       behavior: 'smooth'
     });
   };
+
+  const SocialLink = ({ href, name, icon }) => (
+    <motion.li whileHover={{ x: 5 }} className="flex items-center gap-2 group">
+      <img
+        src={icon}
+        alt=""
+        className={`w-4 h-4 object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-300 ${name === 'Twitter' ? 'rounded-[3px]' : ''}`}
+      />
+      <a href={href} target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">
+        {name}
+      </a>
+    </motion.li>
+  );
+
+  const ContactLink = ({ href, name, icon, isCall }) => (
+    <motion.li whileHover={{ x: 5 }} className="flex items-center gap-2 group">
+      <img
+        src={icon}
+        alt=""
+        className={`w-4 h-4 object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-300 ${isCall ? 'scale-[0.85]' : ''}`}
+      />
+      <a href={href} className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">
+        {name}
+      </a>
+    </motion.li>
+  );
 
   return (
     <footer id="contact" className="relative bg-white pt-32 pb-16 overflow-hidden">
@@ -84,36 +112,20 @@ const ContactSection = () => {
             <div className="flex flex-col gap-4">
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Socials</span>
               <ul className="flex flex-col gap-3">
-                <motion.li whileHover={{ x: 5 }}>
-                  <a href="https://www.linkedin.com/in/nishtala-venkata-akhil-8086a5225/" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">LinkedIn</a>
-                </motion.li>
-                <motion.li whileHover={{ x: 5 }}>
-                  <a href="https://dribbble.com/akhilnishtala" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">Dribbble</a>
-                </motion.li>
-                <motion.li whileHover={{ x: 5 }}>
-                  <a href="https://x.com/Akhilnishtala" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">Twitter</a>
-                </motion.li>
-                <motion.li whileHover={{ x: 5 }}>
-                  <a href="https://www.instagram.com/___.___akhil___.___/" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">Instagram</a>
-                </motion.li>
+                <SocialLink href="https://www.linkedin.com/in/nishtala-venkata-akhil-8086a5225/" name="LinkedIn" icon={linkedinIcon} />
+                <SocialLink href="https://dribbble.com/akhilnishtala" name="Dribbble" icon={dribbbleIcon} />
+                <SocialLink href="https://x.com/Akhilnishtala" name="Twitter" icon={xIcon} />
+                <SocialLink href="https://www.instagram.com/___.___akhil___.___/" name="Instagram" icon={instagramIcon} />
               </ul>
             </div>
 
             <div className="flex flex-col gap-4">
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Contact</span>
               <ul className="flex flex-col gap-3">
-                <motion.li whileHover={{ x: 5 }}>
-                  <a href="mailto:akhilnishtala14@gmail.com" className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">Email</a>
-                </motion.li>
-                <motion.li whileHover={{ x: 5 }}>
-                  <a href="https://t.me/akhilnishtala" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">Telegram</a>
-                </motion.li>
-                <motion.li whileHover={{ x: 5 }}>
-                  <a href="https://wa.me/7337590891" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">WhatsApp</a>
-                </motion.li>
-                <motion.li whileHover={{ x: 5 }}>
-                  <a href="tel:+917337590891" className="text-sm font-bold text-black hover:text-zinc-500 transition-colors">+91 7337 590 891</a>
-                </motion.li>
+                <ContactLink href="mailto:akhilnishtala14@gmail.com" name="Email" icon={gmailIcon} />
+                <ContactLink href="https://t.me/akhilnishtala" name="Telegram" icon={telegramIcon} />
+                <ContactLink href="https://wa.me/7337590891" name="WhatsApp" icon={whatsappIcon} />
+                <ContactLink href="tel:+917337590891" name="+91 7337 590 891" icon={callIcon} isCall />
               </ul>
             </div>
 
