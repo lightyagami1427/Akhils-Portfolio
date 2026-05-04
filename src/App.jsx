@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
 import HeroSection from './sections/HeroSection';
 import ProjectsSection from './sections/ProjectsSection';
@@ -43,6 +44,7 @@ function App() {
         <ExperienceSection />
         <ContactSection />
       </main>
+      <Analytics />
     </div>
   );
 }
