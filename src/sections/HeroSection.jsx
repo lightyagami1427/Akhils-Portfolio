@@ -1,217 +1,231 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaLinkedinIn } from "react-icons/fa";
-import { HiOutlineDownload } from "react-icons/hi";
-import { FiSun, FiMoon } from 'react-icons/fi';
-import thumbImg from '../assets/Frame 10.png';
-// Importing all rectangle assets for more variety
-import img1 from '../assets/hero1.jpg';
-import img2 from '../assets/hero2.jpg';
-import img3 from '../assets/hero3.jpg';
-import img4 from '../assets/hero4.jpg';
-import img5 from '../assets/hero5.jpg';
-import img7 from '../assets/hero7.jpg';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { FiSun, FiMoon, FiArrowDown, FiClock } from 'react-icons/fi';
+import { getVisitorCompany } from '../utils/visitor';
+import ReviewCursor from '../components/ReviewCursor';
+import GlassesNote from '../components/GlassesNote';
+import GlassesIcon from '../components/GlassesIcon';
+import portrait from '../assets/avatar_headphones.webp';
 
-const HeroSection = ({ theme, toggleTheme }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const RESUME_URL = 'https://drive.google.com/file/d/1SccGI_9RuJTLRuAfWZaFL-CjYijlzDCf/view?usp=sharing';
+const LINKEDIN_URL = 'https://www.linkedin.com/in/akhil-n-8086a5225/';
+const EMAIL = 'mailto:akhilnishtala14@gmail.com';
+
+const ROLES = ['Product Designer', 'Creative Designer', 'UI UX Designer'];
+
+// The hiring conversation that plays out over the hero. Edit freely.
+const REVIEWERS = [
+  {
+    name: 'Recruiter',
+    comment: 'Okay, the work is actually good.',
+    color: 'var(--color-violet)',
+    from: { x: -220, y: 60 },
+    delay: 0.5,
+    position: 'left-[47%] top-[20%]',
+  },
+  {
+    name: 'Design lead',
+    comment: 'Love the confidence.',
+    color: 'var(--color-green)',
+    from: { x: 200, y: -90 },
+    delay: 1.7,
+    position: 'right-[3%] top-[13%]',
+  },
+  {
+    name: 'Founder',
+    comment: 'I think we should give him a chance.',
+    color: 'var(--color-orange)',
+    from: { x: -120, y: 160 },
+    delay: 2.9,
+    position: 'left-[43%] top-[64%]',
+  },
+];
+
+// Small square handle on each corner of the selection box
+const Handle = ({ className }) => (
+  <span className={`absolute h-2.5 w-2.5 bg-white border-[1.5px] border-accent ${className}`} />
+);
+
+const HeroSection = ({ theme, toggleTheme, glasses, toggleGlasses, toggleHurry }) => {
+  const reduceMotion = useReducedMotion();
+  const [company] = useState(getVisitorCompany);
+
+  // With a tailored link, the reviewers become that company's team
+  const reviewers = company
+    ? REVIEWERS.map((reviewer, index) => ({ ...reviewer, name: `${company} ${['recruiter', 'design lead', 'hiring manager'][index]}` }))
+    : REVIEWERS;
   const [roleIndex, setRoleIndex] = useState(0);
-  const roles = ["Product Designer", "Creative Designer", "UI UX Designer"];
 
   useEffect(() => {
     const roleInterval = setInterval(() => {
-      setRoleIndex((prev) => (prev + 1) % roles.length);
+      setRoleIndex((prev) => (prev + 1) % ROLES.length);
     }, 2500);
     return () => clearInterval(roleInterval);
-  }, [roles.length]);
+  }, []);
 
-  // Creating a larger pool of images
-  const archProjects = [img1, img2, img3, img4, img5, img7, img1, img2, img3, img4, img5, img7];
+  const lastReviewer = reviewers[reviewers.length - 1];
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center bg-background overflow-hidden pt-6 px-10 transition-colors duration-300">
-      
-      {/* Subtle Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-primary/5 rounded-full blur-[150px] pointer-events-none z-0"></div>
+    <section
+      data-annotate="hero: 3 reviewer cursors, springs at 0.5s / 1.7s / 2.9s"
+      className="relative flex min-h-svh flex-col overflow-hidden bg-background transition-colors duration-300"
+    >
+      {/* Top bar */}
+      <header className="shell flex items-center justify-between gap-4 pt-5 sm:pt-7 relative z-30">
+        <a href="#top" className="font-display text-[19px] font-bold tracking-tight text-primary whitespace-nowrap" style={{ fontStretch: '85%' }}>
+          Akhil Nishtala
+        </a>
 
-      {/* Top Navigation */}
-      <div className="w-full flex justify-between items-start z-30 max-w-[1500px]">
-        <div className="flex gap-8 sm:gap-20 md:gap-40 items-center">
-          <div className="flex flex-col gap-1">
-            <span className="text-[13px] font-black text-primary uppercase tracking-tight">INDIA BASED</span>
-            <span className="text-[13px] text-zinc-400 dark:text-zinc-500 font-medium tracking-tight">Working Globally</span>
+        <nav aria-label="Main" className="flex items-center gap-1 sm:gap-2">
+          <div className="hidden md:flex items-center gap-1 mr-2 text-[14px] font-medium text-secondary">
+            <a href="#work" className="px-3 py-2 rounded-lg hover:text-primary hover:bg-card transition-colors">Work</a>
+            <a href="#arcade" className="px-3 py-2 rounded-lg hover:text-primary hover:bg-card transition-colors">Play</a>
+            <a href="#experience" className="px-3 py-2 rounded-lg hover:text-primary hover:bg-card transition-colors">Experience</a>
+            <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className="px-3 py-2 rounded-lg hover:text-primary hover:bg-card transition-colors">LinkedIn</a>
+            <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" className="px-3 py-2 rounded-lg hover:text-primary hover:bg-card transition-colors">CV</a>
           </div>
-          <div className="hidden sm:flex flex-col gap-1">
-            <span className="text-[13px] font-black text-primary uppercase tracking-tight">DESIGNING AT</span>
-            <span className="text-[13px] text-zinc-400 dark:text-zinc-500 font-medium tracking-tight">Oddsmaster</span>
-          </div>
-          <div className="hidden md:flex flex-col gap-1">
-            <span className="text-[13px] font-black text-primary uppercase tracking-tight">FREELANCE AVAILABILITY</span>
-            <span className="text-[13px] text-zinc-400 dark:text-zinc-500 font-medium tracking-tight">Yes</span>
-          </div>
-        </div>
-        <motion.a
-          href="mailto:akhilnishtala14@gmail.com"
-          whileHover={{ scale: 1.05, backgroundColor: "var(--color-primary)", opacity: 0.9 }}
-          whileTap={{ scale: 0.95 }}
-          className="bg-primary text-background px-6 sm:px-10 py-3 sm:py-3.5 rounded-full text-xs sm:text-sm font-bold shadow-lg shadow-primary/20 tracking-tight transition-colors duration-300"
-        >
-          Get in Touch
-        </motion.a>
-      </div>
-
-      {/* Rotating Project Arch */}
-      <div className="absolute top-[120px] left-1/2 -translate-x-1/2 w-[1600px] h-[1450px] pointer-events-none z-10 flex justify-center items-center">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
-          className="relative w-full h-full"
-        >
-          {archProjects.map((img, index) => {
-            const totalItems = archProjects.length;
-            const angle = (index * 360) / totalItems;
-            const radius = 580;
-
-            return (
-              <motion.div
-                key={index}
-                className="absolute left-1/2 top-1/2 w-[185px] aspect-[10/14] rounded-[1.5rem] overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.1)] border border-primary/5 origin-center bg-card transition-colors duration-300"
-                style={{
-                  marginLeft: '-92px',
-                  marginTop: '-130px',
-                  transform: `rotate(${angle}deg) translate(${radius}px) rotate(90deg) translateZ(0)`
-                }}
-              >
-                <img
-                  src={img}
-                  alt="Arch project"
-                  className="w-full h-full object-cover object-top scale-[1.15]"
-                />
-              </motion.div>
-            );
-          })}
-        </motion.div>
-      </div>
-
-      {/* Main Content Area */}
-      <div className="relative z-20 flex flex-col items-center mt-auto mb-16 w-full max-w-[1500px]">
-        <motion.h1
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="text-4xl md:text-5xl lg:text-5xl font-serif italic mb-4 text-primary text-center leading-[1.1] tracking-[-0.03em]"
-        >
-          Seriously a good designer
-        </motion.h1>
-
-        {/* The Signature Pill Card with Floating Menu */}
-        <div className="relative">
-          <AnimatePresence>
-            {isMenuOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                className="absolute bottom-full right-0 mb-4 bg-primary rounded-[20px] p-2 min-w-[180px] shadow-[0_20px_50px_rgba(0,0,0,0.4)] z-50 overflow-hidden"
-              >
-                <a
-                  href="https://www.linkedin.com/in/nishtala-venkata-akhil-8086a5225/"
-                  target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-3 px-4 py-3 text-background hover:bg-background/5 transition-colors rounded-[14px] group"
-                >
-                  <div className="w-6 h-6 rounded-md bg-background/10 flex items-center justify-center text-[12px]">
-                    <FaLinkedinIn className="group-hover:scale-110 transition-transform" />
-                  </div>
-                  <span className="text-[14px] font-bold uppercase tracking-wide">Linkedin</span>
-                </a>
-                <div className="h-[1px] bg-background/5 mx-2 my-1" />
-                <a
-                  href="https://drive.google.com/file/d/1UyKizYEtMjrhS80yAu23LXPWxWQIhPmc/view?usp=sharing"
-                  target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-3 px-4 py-3 text-background hover:bg-background/5 transition-colors rounded-[14px] group"
-                >
-                  <div className="w-6 h-6 rounded-md bg-background/10 flex items-center justify-center text-[14px]">
-                    <HiOutlineDownload className="group-hover:scale-110 transition-transform" />
-                  </div>
-                  <span className="text-[14px] font-bold uppercase tracking-wide">Download CV</span>
-                </a>
-              </motion.div>
-            )}
-
-          </AnimatePresence>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="bg-primary rounded-[12px] p-3 pr-6 sm:pr-8 flex items-center justify-between gap-3 sm:gap-5 w-auto min-w-[300px] sm:min-w-[340px] md:min-w-[420px] shadow-[0_30px_70px_rgba(0,0,0,0.3)] cursor-default"
+          <button
+            onClick={toggleHurry}
+            className="h-10 px-2.5 md:px-3 rounded-lg inline-flex items-center gap-2 text-[14px] font-medium text-primary hover:bg-card transition-colors"
+            aria-label="In a hurry? Show the 60-second version"
           >
-            <div className="flex items-center gap-3 sm:gap-5">
-              <div className="w-12 h-12 rounded-lg overflow-hidden shrink-0 bg-background/10 p-1 shadow-inner">
-                <img src={thumbImg} alt="Avatar" className="w-full h-full object-cover rounded-md" />
-              </div>
-              <div className="flex flex-col justify-center">
-                <h3 className="text-lg md:text-xl font-black text-background tracking-[0.02em] uppercase leading-none mb-1">AKHIL NISHTALA</h3>
-                <div className="h-[12px] overflow-hidden relative w-[200px]">
-                  <AnimatePresence mode="popLayout">
-                    <motion.p
-                      key={roleIndex}
-                      initial={{ y: 10, opacity: 0 }}
-                      animate={{ y: 0, opacity: 0.8 }}
-                      exit={{ y: -10, opacity: 0 }}
-                      transition={{ duration: 0.5, ease: "easeInOut" }}
-                      className="text-[9px] md:text-[10px] text-zinc-400 font-bold tracking-[0.02em] uppercase absolute left-0 whitespace-nowrap"
-                    >
-                      {roles[roleIndex]}
-                    </motion.p>
-                  </AnimatePresence>
-                </div>
-              </div>
-            </div>
+            <FiClock size={16} aria-hidden="true" />
+            <span className="hidden lg:inline">In a hurry?</span>
+          </button>
+          <button
+            onClick={toggleGlasses}
+            aria-pressed={glasses}
+            className={`h-10 px-2.5 md:px-3 rounded-lg inline-flex items-center gap-2 text-[14px] font-medium transition-colors ${
+              glasses ? 'bg-spec text-black' : 'text-primary hover:bg-card'
+            }`}
+            aria-label={glasses ? 'Take off glasses: hide design specs' : 'Wear glasses: show design specs'}
+          >
+            <GlassesIcon />
+            <span className="hidden md:inline">{glasses ? 'Take off glasses' : 'Wear glasses'}</span>
+          </button>
+          <button
+            onClick={toggleTheme}
+            className="h-10 w-10 rounded-lg flex items-center justify-center text-primary hover:bg-card transition-colors"
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {theme === 'dark' ? <FiSun size={17} /> : <FiMoon size={17} />}
+          </button>
+          <a
+            href={EMAIL}
+            className="hidden sm:flex h-10 px-5 rounded-lg bg-primary text-background text-[14px] font-semibold items-center whitespace-nowrap hover:opacity-85 transition-opacity"
+          >
+            Get in touch
+          </a>
+        </nav>
+      </header>
 
-            <div className="flex items-center gap-4 pl-4 sm:pl-6 border-l border-background/10 py-1">
-              <button
-                onClick={toggleTheme}
-                className="p-1.5 rounded-md hover:bg-background/10 transition-colors text-background flex items-center justify-center"
-                aria-label="Toggle theme"
-              >
-                {theme === 'dark' ? <FiSun size={16} /> : <FiMoon size={16} />}
-              </button>
-              
-              {/* Interactive Menu Icon */}
-              <div
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="relative w-6 h-6 flex flex-col justify-center items-center gap-1.5 cursor-pointer group"
-              >
-                <motion.div
-                  animate={isMenuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-                  className="w-6 h-[2.5px] bg-background rounded-full transition-colors group-hover:bg-zinc-400"
-                />
-                <motion.div
-                  animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-                  className="w-6 h-[2.5px] bg-background rounded-full transition-colors group-hover:bg-zinc-400"
-                />
-                <motion.div
-                  animate={isMenuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-                  className="w-6 h-[2.5px] bg-background rounded-full transition-colors group-hover:bg-zinc-400"
-                />
-              </div>
-            </div>
-          </motion.div>
+      {/* Main */}
+      <div id="top" className="shell relative z-20 flex-1 grid grid-cols-1 lg:grid-cols-12 items-end lg:items-center gap-x-8 gap-y-8 pt-10 pb-10 lg:pt-6 lg:pb-14">
+        <div className="lg:col-span-7 xl:col-span-7">
+          {company && (
+            <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-accent px-3.5 py-1.5 text-[13.5px] font-semibold text-white">
+              Hi {company} team, this one’s for you.
+            </p>
+          )}
+          <p className="mb-4 text-[14px] sm:text-[15px] font-semibold text-secondary">
+            Product designer for AI, Web3 and 0→1 products
+          </p>
+          <h1 data-spec="Display" className="display text-primary text-[clamp(4rem,21vw,8.5rem)] lg:text-[clamp(7rem,12.2vw,12.5rem)]">
+            Seriously
+            <br />
+            a good
+            <br />
+            designer.
+          </h1>
+
+          <p className="mt-7 lg:mt-9 max-w-[30rem] text-[17px] sm:text-[19px] leading-[1.45] text-secondary">
+            <span className="text-primary font-medium">Akhil Nishtala</span> takes products from research to handoff, and has the numbers to show for it.
+            Based in India, working globally. Designing at{' '}
+            <span className="inline-flex items-baseline gap-1.5 text-primary font-medium whitespace-nowrap">
+              <span className="relative flex h-2 w-2 self-center" aria-hidden="true">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75 motion-safe:animate-ping"></span>
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+              </span>
+              Flyingduck
+            </span>{' '}
+            and open to freelance.
+          </p>
+
+          <div className="mt-7 flex flex-wrap items-center gap-3">
+            <a
+              href="#work"
+              className="h-12 px-6 rounded-xl bg-primary text-background text-[15px] font-semibold inline-flex items-center gap-2 hover:opacity-85 transition-opacity"
+            >
+              See the work <FiArrowDown size={16} aria-hidden="true" />
+            </a>
+            <a
+              href={RESUME_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="h-12 px-6 rounded-xl border border-line text-primary text-[15px] font-semibold inline-flex items-center hover:bg-card transition-colors"
+            >
+              Download CV
+            </a>
+            <GlassesNote className="ml-1">the CV is one page. promise.</GlassesNote>
+          </div>
         </div>
 
-        {/* Indicators */}
-        <div className="flex justify-between w-full max-w-[550px] mt-8 px-2">
-          <div className="flex items-center gap-3 text-[12px] font-black text-primary cursor-pointer uppercase tracking-tight hover:translate-y-1 transition-transform">
-            <span className="text-lg">↓</span> SCROLL
-          </div>
-          <div className="flex items-center gap-3 text-[12px] font-black text-primary cursor-pointer uppercase tracking-tight hover:translate-y-1 transition-transform">
-            COOL STUFF <span className="text-lg">↓</span>
+        {/* Portrait, shown as the selected layer */}
+        <div className="lg:col-span-5 xl:col-span-5 flex justify-center lg:justify-end">
+          <div className="relative w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[540px]">
+            <div className="relative border-[1.5px] border-accent">
+              <Handle className="-top-1.5 -left-1.5" />
+              <Handle className="-top-1.5 -right-1.5" />
+              <Handle className="-bottom-1.5 -left-1.5" />
+              <Handle className="-bottom-1.5 -right-1.5" />
+              <img
+                src={portrait}
+                alt="3D portrait of Akhil, grinning, in a white hoodie"
+                className="block w-full aspect-square object-cover object-top"
+              />
+            </div>
+
+            {/* Role tag, where a design tool would show the layer size */}
+            <div className="absolute left-1/2 -translate-x-1/2 -bottom-9 h-7 overflow-hidden rounded-md bg-accent px-3 min-w-[150px] flex items-center justify-center">
+              <AnimatePresence mode="popLayout" initial={false}>
+                <motion.span
+                  key={roleIndex}
+                  initial={reduceMotion ? false : { y: 14, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={reduceMotion ? { opacity: 0 } : { y: -14, opacity: 0 }}
+                  transition={{ duration: 0.35, ease: 'easeInOut' }}
+                  className="text-[12.5px] font-semibold text-white whitespace-nowrap"
+                >
+                  {ROLES[roleIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </div>
+
+            {/* Small screens: just the closing comment, pinned to the portrait */}
+            <ReviewCursor
+              name={lastReviewer.name}
+              comment={lastReviewer.comment}
+              color={lastReviewer.color}
+              from={{ x: -60, y: 60 }}
+              delay={0.6}
+              className="lg:hidden absolute -left-1 top-[54%]"
+            />
           </div>
         </div>
+
+        {/* Large screens: reviewers arrive one by one */}
+        {reviewers.map((reviewer) => (
+          <ReviewCursor
+            key={reviewer.name}
+            name={reviewer.name}
+            comment={reviewer.comment}
+            color={reviewer.color}
+            from={reviewer.from}
+            delay={reviewer.delay}
+            className={`hidden lg:block absolute ${reviewer.position}`}
+          />
+        ))}
       </div>
-
-      {/* Fade the very bottom overlap */}
-      <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-background to-transparent z-10 pointer-events-none transition-colors duration-300"></div>
     </section>
   );
 };

@@ -1,63 +1,73 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from 'framer-motion';
 import { tools } from '../data/portfolio';
-import avatar from '../assets/avatar.png';
+import avatar from '../assets/avatar.webp';
+import GlassesNote from '../components/GlassesNote';
+
+const BASE = 56;   // resting icon size in px
+const PEAK = 88;   // size right under the pointer
+const REACH = 150; // how far the magnify effect spreads, in px
+
+// One icon in the dock. It grows as the pointer gets close.
+const DockIcon = ({ tool, pointerX, enabled }) => {
+  const ref = useRef(null);
+
+  const distance = useTransform(pointerX, (value) => {
+    const bounds = ref.current?.getBoundingClientRect();
+    if (!bounds) return REACH;
+    return value - (bounds.left + bounds.width / 2);
+  });
+  const targetSize = useTransform(distance, [-REACH, 0, REACH], [BASE, PEAK, BASE]);
+  const size = useSpring(targetSize, { stiffness: 320, damping: 22, mass: 0.4 });
+
+  return (
+    <motion.li
+      ref={ref}
+      style={enabled ? { width: size, height: size } : { width: BASE, height: BASE }}
+      className="shrink-0"
+    >
+      <img src={tool.iconImg} alt={tool.name} className="h-full w-full object-contain rounded-[22%]" />
+    </motion.li>
+  );
+};
 
 const ToolsSection = () => {
+  const reduceMotion = useReducedMotion();
+  const pointerX = useMotionValue(Infinity);
+
   return (
-    <section className="py-4 bg-background transition-colors duration-300 overflow-hidden">
-      <div className="container mx-auto px-10">
-        <div className="flex flex-col lg:flex-row items-center gap-16">
+    <section data-annotate="dock: icons grow 56px to 88px within 150px of the pointer" className="bg-background text-primary pt-20 sm:pt-28 pb-20 sm:pb-28 overflow-hidden transition-colors duration-300">
+      <div className="shell flex flex-col items-center text-center">
+        <h2 data-spec="Heading" className="heading text-[clamp(2.5rem,6.5vw,5rem)] max-w-[14ch]">Tools that will see my face daily</h2>
 
-          {/* Icons Grid Area */}
-          <div className="flex-[1.5]">
-            <div className="flex items-center gap-3 mb-16">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="text-primary">
-                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
-              </svg>
-              <h2 className="text-xs font-black tracking-[0em] uppercase text-primary">
-                TOOLS THAT WILL SEE MY FACE DAILY
-              </h2>
-            </div>
+        {/* The face in question, looking over the dock */}
+        <img
+          src={avatar}
+          alt="Akhil's 3D avatar wearing headphones"
+          loading="lazy"
+          className="mt-10 w-[250px] sm:w-[330px] h-auto -mb-10 sm:-mb-14 relative z-0"
+        />
 
-            <div className="grid grid-cols-4 md:grid-cols-7 gap-6">
-              {tools.map((tool, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: -50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, type: "spring", stiffness: 100 }}
-                  className="w-20 h-20 flex items-center justify-center transition-all duration-300 group bg-card rounded-2xl border border-primary/5 hover:border-primary/20"
-                >
-                  <motion.img
-                    src={tool.iconImg}
-                    alt={tool.name}
-                    whileHover={{ scale: 1.2, rotate: 5 }}
-                    className="w-full h-full object-contain transition-all duration-300"
-                  />
-                </motion.div>
-              ))}
-            </div>
-          </div>
+        {/* Desktop: a dock that magnifies under the pointer */}
+        <ul
+          onMouseMove={(event) => pointerX.set(event.clientX)}
+          onMouseLeave={() => pointerX.set(Infinity)}
+          className="hidden lg:flex relative z-10 items-end gap-3 h-[84px] px-3.5 pb-3.5 rounded-[26px] bg-surface border border-line shadow-[0_18px_50px_rgba(0,0,0,0.12)]"
+        >
+          {tools.map((tool, index) => (
+            <DockIcon key={index} tool={tool} pointerX={pointerX} enabled={!reduceMotion} />
+          ))}
+        </ul>
 
-          {/* Large Avatar on Right */}
-          <div className="flex-1 w-full flex justify-end">
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className="w-full max-w-[500px]"
-            >
-              <motion.img
-                src={avatar}
-                alt="Avatar with headphones"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-                className="w-full h-auto object-contain"
-              />
-            </motion.div>
-          </div>
-        </div>
+        {/* Smaller screens: the same dock, wrapped into rows */}
+        <ul className="lg:hidden relative z-10 grid grid-cols-5 sm:grid-cols-7 gap-3 p-3.5 rounded-[26px] bg-surface border border-line shadow-[0_18px_50px_rgba(0,0,0,0.12)]">
+          {tools.map((tool, index) => (
+            <li key={index} className="w-[52px] h-[52px]">
+              <img src={tool.iconImg} alt={tool.name} loading="lazy" className="h-full w-full object-contain rounded-[22%]" />
+            </li>
+          ))}
+        </ul>
+        <GlassesNote arrow="up" show="lg:glasses:inline-flex" className="mt-4">hover it. it magnifies.</GlassesNote>
       </div>
     </section>
   );

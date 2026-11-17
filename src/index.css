@@ -1,36 +1,223 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+/* Only shown while the visitor is "wearing glasses" (inspect mode) */
+@custom-variant glasses (&:where(.glasses, .glasses *));
+
+/*
+  Design tokens
+  The site is styled like a design file being reviewed: a grey canvas,
+  white frames, a blue selection colour, and coloured reviewer cursors.
+*/
 @theme {
-  --color-background: #ffffff;
-  --color-primary: #000000;
-  --color-secondary: #71717a;
+  --color-background: #ededeb;   /* canvas */
+  --color-surface: #ffffff;      /* frames sitting on the canvas */
+  --color-primary: #000000;      /* ink */
+  --color-secondary: #666666;    /* quiet text */
   --color-card: rgba(0, 0, 0, 0.05);
+  --color-line: rgba(0, 0, 0, 0.12);
+  --color-accent: #0c8ce9;       /* selection blue */
+  --color-stamp: #e5342a;        /* "Hired" stamp red */
 
-  --font-sans: "Inter", "system-ui", "sans-serif";
-  --font-serif: "Instrument Serif", serif;
-  --font-script: "Caveat", cursive;
+  /* reviewer cursor colours */
+  --color-violet: #8a3ffc;
+  --color-green: #12a150;
+  --color-orange: #f26b1d;
 
-  --animate-float: float 3s ease-in-out infinite;
+  /* inspect mode ("glasses") */
+  --color-spec: #c2660a;
+  --color-grid: rgba(0, 0, 0, 0.055);
 
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
+  --font-sans: "Inter Variable", "Inter", system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque Variable", "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --font-script: "Caveat", "Segoe Script", cursive;
 }
 
-/* Dark mode overrides */
 .dark {
-  --color-background: #0a0a0a;
+  --color-background: #1c1c1c;
+  --color-surface: #2a2a2a;
   --color-primary: #ffffff;
-  --color-secondary: #a1a1aa;
-  --color-card: rgba(255, 255, 255, 0.05);
+  --color-secondary: #a6a6a6;
+  --color-card: rgba(255, 255, 255, 0.06);
+  --color-line: rgba(255, 255, 255, 0.16);
+  --color-accent: #3aa7f5;
+  --color-stamp: #ff5a4f;
+  --color-violet: #a970ff;
+  --color-green: #2bbf6a;
+  --color-orange: #ff8a3d;
+  --color-spec: #f5b544;
+  --color-grid: rgba(255, 255, 255, 0.05);
 }
 
 @layer base {
-  body {
-    @apply bg-background text-primary antialiased selection:bg-primary selection:text-background;
-    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+  html {
+    scroll-padding-top: 1.5rem;
   }
+
+  body {
+    @apply bg-background text-primary antialiased selection:bg-accent selection:text-white;
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* Big condensed headline style */
+.display {
+  font-family: var(--font-display);
+  font-stretch: 75%;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 0.9;
+}
+
+/* Section headings */
+.heading {
+  font-family: var(--font-display);
+  font-stretch: 85%;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+/* Shared page gutter */
+.shell {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .shell {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* Hide scrollbar on horizontal strips but keep them scrollable */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/*
+  Inspect mode ("Wear glasses")
+  Turns the page into a spec sheet: a grid, the content column, dashed section
+  outlines with notes, and live type measurements on the headings.
+  Elements opt in with data-annotate="..." (sections) and data-spec="Name" (text).
+*/
+html.glasses body {
+  background-image:
+    linear-gradient(var(--color-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Let the grid show through the sections */
+html.glasses main > section {
+  background-color: transparent;
+}
+
+/* The content column */
+html.glasses body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: calc(min(100%, 1440px) - 2.5rem);
+  transform: translateX(-50%);
+  border-inline: 1px dashed var(--color-spec);
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 35;
+}
+
+@media (min-width: 640px) {
+  html.glasses body::after {
+    width: calc(min(100%, 1440px) - 5rem);
+  }
+}
+
+.spec-label,
+.glasses [data-annotate]::before,
+.glasses [data-spec]::before {
+  font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-style: normal;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: none;
+  white-space: nowrap;
+  color: var(--color-spec);
+  background-color: color-mix(in srgb, var(--color-spec) 14%, var(--color-background));
+}
+
+.glasses [data-annotate] {
+  position: relative;
+  outline: 1px dashed var(--color-spec);
+  outline-offset: -1px;
+}
+
+.glasses [data-annotate]::before {
+  content: attr(data-annotate);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 36;
+  padding: 6px 8px;
+  border-bottom-right-radius: 4px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+.glasses [data-spec] {
+  position: relative;
+  width: fit-content; /* hug the text so the box shows its real size */
+}
+
+
+/* Measurement chip above the text, filled in by GlassesInspector */
+.glasses [data-spec]::before {
+  content: attr(data-spec-info);
+  position: absolute;
+  left: -5px;
+  bottom: calc(100% + 12px);
+  z-index: 31;
+  padding: 5px 7px;
+  border-radius: 4px;
+  max-width: calc(100vw - 2.5rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+/* Selection box with a handle on each corner */
+.glasses [data-spec]::after {
+  --handle: 7px;
+  content: "";
+  position: absolute;
+  inset: -5px;
+  z-index: 30;
+  border: 1px solid var(--color-spec);
+  background:
+    linear-gradient(var(--color-spec), var(--color-spec)) left top / var(--handle) var(--handle) no-repeat,
+    linear-gradient(var(--color-spec), var(--color-spec)) right top / var(--handle) var(--handle) no-repeat,
+    linear-gradient(var(--color-spec), var(--color-spec)) left bottom / var(--handle) var(--handle) no-repeat,
+    linear-gradient(var(--color-spec), var(--color-spec)) right bottom / var(--handle) var(--handle) no-repeat;
+  pointer-events: none;
 }
 
 html.lenis {
@@ -51,47 +238,4 @@ html.lenis {
 
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
-}
-
-/* Glassmorphism utility */
-.glass {
-  background: rgba(0, 0, 0, 0.02);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.glass-hover:hover {
-  background: rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.glass-dark {
-  background: rgba(26, 26, 26, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Text glow */
-.text-glow {
-  text-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #000;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #222;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #333;
 }

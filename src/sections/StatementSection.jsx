@@ -1,62 +1,43 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+
+const STATEMENT =
+  'Passionate about crafting intuitive and engaging digital experiences. I design user-centered products that balance creativity, usability, and meaningful impact.';
+
+// Each word goes from faint to full ink as the section scrolls past
+const Word = ({ children, progress, range }) => {
+  const opacity = useTransform(progress, range, [0.18, 1]);
+  return <motion.span style={{ opacity }}>{children} </motion.span>;
+};
 
 const StatementSection = () => {
+  const reduceMotion = useReducedMotion();
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.85', 'end 0.55'] });
+  const words = STATEMENT.split(' ');
+
   return (
-    <section className="py-40 bg-background relative overflow-hidden transition-colors duration-300">
-      <div className="container mx-auto px-6">
-        <div className="relative max-w-6xl mx-auto py-24 px-16">
+    <section data-annotate="statement: each word fades 0.18 to 1 as you scroll" className="bg-background text-primary py-24 sm:py-36 transition-colors duration-300">
+      <div className="shell">
+        <p ref={ref} data-spec="Statement" className="heading text-[clamp(2rem,5.6vw,5.25rem)] leading-[1.04] max-w-[19ch] sm:max-w-[22ch]" style={{ lineHeight: 1.04 }}>
+          {reduceMotion
+            ? STATEMENT
+            : words.map((word, index) => (
+                <Word key={index} progress={scrollYProgress} range={[index / words.length, (index + 1) / words.length]}>
+                  {word}
+                </Word>
+              ))}
 
-          {/* Top-Left Corner Border */}
-          <div className="absolute top-0 left-0 w-32 h-32">
-            <div className="absolute top-0 left-0 w-full h-full border-t-[3px] border-l-[3px] border-primary rounded-tl-[100px] opacity-20"></div>
-          </div>
-
-          {/* Bottom-Right Corner Border */}
-          <div className="absolute bottom-0 right-0 w-32 h-32">
-            <div className="absolute bottom-0 right-0 w-full h-full border-b-[3px] border-r-[3px] border-primary rounded-br-[100px] opacity-20"></div>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="text-center"
-          >
-            <h2 className="text-4xl md:text-5xl lg:text-[48px] font-bold leading-[1.2] text-zinc-400 dark:text-zinc-500 tracking-tight">
-              Passionate about <span className="text-primary">crafting intuitive</span> and engaging digital experiences. I design <span className="text-primary">user-centered products</span> that balance creativity, usability, and meaningful impact.
-            </h2>
-
-            {/* Signature Badge / Cursor */}
-            <div className="mt-16 flex justify-center md:justify-end md:mr-24 relative">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-                className="relative"
-              >
-                {/* Mouse Cursor Icon */}
-                <div className="absolute -top-6 -left-4">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="url(#cursor-gradient)">
-                    <defs>
-                      <linearGradient id="cursor-gradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="var(--color-primary)" />
-                        <stop offset="100%" stopColor="var(--color-primary)" stopOpacity="0.8" />
-                      </linearGradient>
-                    </defs>
-                    <path d="M5.662 2.621l14.462 14.461-7.231 2.41-2.41 7.231-4.821-24.102z" />
-                  </svg>
-                </div>
-
-                {/* Pill Badge */}
-                <div className="bg-primary text-background px-8 py-2.5 rounded-full text-sm font-medium tracking-[-0.03em] shadow-xl border border-primary/10">
-                  Akhil Nishtala
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
+          {/* His own cursor, parked where the sentence ends */}
+          <span className="inline-flex items-start align-baseline ml-1 translate-y-3 font-sans" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 22 22" className="block shrink-0">
+              <path d="M3 2.5 18.5 9l-6.6 2.3L9.5 18 3 2.5Z" fill="var(--color-accent)" stroke="#fff" strokeWidth="1.5" strokeLinejoin="round" />
+            </svg>
+            <span className="mt-4 -ml-1 rounded-full rounded-tl-none bg-accent px-3 py-1.5 text-[13px] font-semibold leading-none tracking-normal text-white whitespace-nowrap">
+              Akhil Nishtala
+            </span>
+          </span>
+        </p>
       </div>
     </section>
   );

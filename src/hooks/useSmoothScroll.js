@@ -13,6 +13,7 @@ export const useSmoothScroll = () => {
       smoothTouch: false,
       touchMultiplier: 2,
       infinite: false,
+      anchors: true, // smooth-scroll the in-page links (Work, Experience, Back to top)
     });
 
     function raf(time) {
