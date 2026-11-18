@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { connect, presenceMode } from './transports';
+import { checkSupabase, connect, presenceMode, presenceTarget } from './transports';
 import { getMe, initialsOf } from './names';
 import { caseStudies } from '../case-studies';
 
@@ -96,6 +96,7 @@ const PresenceLayer = ({ view, raised = false }) => {
   const [open, setOpen] = useState(false);
   const [now, setNow] = useState(() => Date.now());
   const [overFooter, setOverFooter] = useState(false);
+  const [restCheck, setRestCheck] = useState('checking…');
   const [status, setStatus] = useState({ state: presenceMode === 'off' ? 'off' : 'connecting', detail: '' });
   const [showCursors, setShowCursors] = useState(() => {
     try {
@@ -252,6 +253,18 @@ const PresenceLayer = ({ view, raised = false }) => {
     if (connection.current && peerCount.current > 0) connection.current.sendCursor({ view, viewOnly: true });
   }, [view]);
 
+  // Debug: test the URL and key with an ordinary request
+  useEffect(() => {
+    if (!DEBUG || presenceMode !== 'supabase') return undefined;
+    let cancelled = false;
+    checkSupabase().then((result) => {
+      if (!cancelled) setRestCheck(result);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   // A slow tick to fade idle cursors and follow layout changes
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1500);
@@ -286,6 +299,13 @@ const PresenceLayer = ({ view, raised = false }) => {
   const debugPanel = DEBUG && (
     <div className="fixed left-3 top-3 z-50 max-w-[calc(100vw-1.5rem)] rounded-lg bg-black/85 px-3 py-2 text-[12px] leading-relaxed text-white font-mono">
       <div>Live visitors · {presenceMode}</div>
+      {presenceMode === 'supabase' && (
+        <>
+          <div>URL: {presenceTarget.url}</div>
+          <div>Key: {presenceTarget.key}</div>
+          <div>Check: {restCheck}</div>
+        </>
+      )}
       <div>
         Status: <b className={status.state === 'SUBSCRIBED' ? 'text-emerald-400' : 'text-amber-300'}>{status.state}</b>
         {status.detail && ` (${status.detail})`}

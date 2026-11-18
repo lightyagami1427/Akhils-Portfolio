@@ -13,13 +13,49 @@
   "local":    browser tabs on one machine. Used in development and the preview.
 */
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+// Forgiving about how the values were pasted: spaces, quotes, a missing https://, a trailing slash,
+// or a dashboard link (supabase.com/dashboard/project/<id>) all become https://<id>.supabase.co
+const cleanUrl = (raw) => {
+  let value = String(raw || '').trim().replace(/^['"]|['"]$/g, '');
+  if (!value) return '';
+  const fromDashboard = value.match(/supabase\.com\/dashboard\/project\/([a-z0-9]+)/i);
+  if (fromDashboard) return `https://${fromDashboard[1]}.supabase.co`;
+  if (!/^https?:\/\//i.test(value)) value = `https://${value}`;
+  try {
+    return new URL(value).origin;
+  } catch {
+    return '';
+  }
+};
+const cleanKey = (raw) => String(raw || '').trim().replace(/^['"]|['"]$/g, '').replace(/\s+/g, '');
+
+const SUPABASE_URL = cleanUrl(import.meta.env.VITE_SUPABASE_URL);
 // The publishable key (sb_publishable_...) or the older anon key; both are safe in the browser
-const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || import.meta.env.VITE_SUPABASE_ANON_KEY;
+const SUPABASE_KEY = cleanKey(import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || import.meta.env.VITE_SUPABASE_ANON_KEY);
+
+// Shown in the debug box (?presence=debug). Neither value is secret; the key is cut short anyway.
+export const presenceTarget = {
+  url: SUPABASE_URL || '(none)',
+  key: SUPABASE_KEY ? `${SUPABASE_KEY.slice(0, 18)}…` : '(none)',
+};
 const CHANNEL = 'portfolio-presence';
 
 export const presenceMode =
   SUPABASE_URL && SUPABASE_KEY ? 'supabase' : import.meta.env.DEV || import.meta.env.VITE_PRESENCE === 'local' ? 'local' : 'off';
+
+// Debug only: an ordinary request that shows whether the URL and the key work, separately from the live connection
+export const checkSupabase = async () => {
+  if (!SUPABASE_URL || !SUPABASE_KEY) return 'no URL or key in this build';
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/heartbeat?select=id&limit=1`, { headers: { apikey: SUPABASE_KEY } });
+    if (response.ok) return `${response.status} OK: URL and key both work`;
+    if (response.status === 401 || response.status === 403) return `${response.status}: URL works, but the key is refused`;
+    if (response.status === 404) return '404: URL works and key accepted, but the heartbeat table is missing';
+    return `${response.status}: unexpected answer`;
+  } catch (error) {
+    return `no answer: the URL is wrong or unreachable (${error?.message || error})`;
+  }
+};
 
 const toPeer = ({ id, name, color, joinedAt }) => ({ id, name, color, joinedAt });
 
