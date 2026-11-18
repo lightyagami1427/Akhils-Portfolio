@@ -18,6 +18,10 @@ const SEND_EVERY_MS = 320; // ~3 updates a second, smoothed on arrival (keeps we
 const IDLE_AFTER_MS = 4000; // fade a cursor that stopped moving
 const HIDE_AFTER_MS = 45000; // remove one that's been still a long time
 const TOAST_MS = 4500;
+const SETTLE_MS = 1000; // anyone already listed this soon after connecting was here before you
+
+// Add ?presence=debug to the site's address to see the live connection's status
+const DEBUG = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('presence') === 'debug';
 
 // Sections and the footer are the landmarks cursors are pinned to
 const landmarks = () => Array.from(document.querySelectorAll('section, footer'));
@@ -92,6 +96,7 @@ const PresenceLayer = ({ view, raised = false }) => {
   const [open, setOpen] = useState(false);
   const [now, setNow] = useState(() => Date.now());
   const [overFooter, setOverFooter] = useState(false);
+  const [status, setStatus] = useState({ state: presenceMode === 'off' ? 'off' : 'connecting', detail: '' });
   const [showCursors, setShowCursors] = useState(() => {
     try {
       return sessionStorage.getItem('presence-cursors') !== 'off';
@@ -104,6 +109,7 @@ const PresenceLayer = ({ view, raised = false }) => {
   const known = useRef(new Set());
   const viewRef = useRef(view);
   const peerCount = useRef(0);
+  const liveSince = useRef(0); // local time we went live; never compared with other devices' clocks
 
   useEffect(() => {
     viewRef.current = view;
@@ -133,13 +139,29 @@ const PresenceLayer = ({ view, raised = false }) => {
         list.forEach((peer) => {
           if (known.current.has(peer.id)) return;
           known.current.add(peer.id);
-          // Only people who arrive after you get a "just landed"
-          if (peer.joinedAt > me.joinedAt) addToast(peer, 'landed just now');
+          // Only people who arrive after you get a "just landed". Timed on this device only,
+          // because other people's clocks can be minutes off.
+          if (liveSince.current && Date.now() - liveSince.current > SETTLE_MS) addToast(peer, 'landed just now');
           // Let the newcomer know which page I'm on, even if I haven't moved my mouse
           connection.current?.sendCursor({ view: viewRef.current, viewOnly: true });
         });
         const ids = new Set(list.map((peer) => peer.id));
         setCursors((previous) => Object.fromEntries(Object.entries(previous).filter(([id]) => ids.has(id))));
+      },
+      onStatus: (state, detail) => {
+        if (cancelled) return;
+        setStatus({ state, detail: detail || '' });
+        if (DEBUG) console.info('[presence]', state, detail || '');
+        if (state !== 'SUBSCRIBED' || liveSince.current) return;
+        liveSince.current = Date.now();
+        try {
+          if (!sessionStorage.getItem('presence-welcomed')) {
+            sessionStorage.setItem('presence-welcomed', '1');
+            addToast(me, 'that’s you, for this visit');
+          }
+        } catch {
+          // no storage, no welcome
+        }
       },
       onCursor: (data) => {
         if (cancelled || !data || !data.id) return;
@@ -161,18 +183,11 @@ const PresenceLayer = ({ view, raised = false }) => {
         }
         current = made;
         connection.current = made;
-        if (!made) return;
-        try {
-          if (!sessionStorage.getItem('presence-welcomed')) {
-            sessionStorage.setItem('presence-welcomed', '1');
-            addToast(me, 'that’s you, for this visit');
-          }
-        } catch {
-          // no storage, no welcome
-        }
+        if (!made) setStatus({ state: 'unsupported', detail: '' });
       })
-      .catch(() => {
+      .catch((error) => {
         // If the live connection fails, the site simply works without it
+        setStatus({ state: 'failed', detail: error?.message || String(error) });
       });
 
     return () => {
@@ -268,7 +283,19 @@ const PresenceLayer = ({ view, raised = false }) => {
     });
   };
 
-  if (presenceMode === 'off') return null;
+  const debugPanel = DEBUG && (
+    <div className="fixed left-3 top-3 z-50 max-w-[calc(100vw-1.5rem)] rounded-lg bg-black/85 px-3 py-2 text-[12px] leading-relaxed text-white font-mono">
+      <div>Live visitors · {presenceMode}</div>
+      <div>
+        Status: <b className={status.state === 'SUBSCRIBED' ? 'text-emerald-400' : 'text-amber-300'}>{status.state}</b>
+        {status.detail && ` (${status.detail})`}
+      </div>
+      <div>You: {me.name} · {me.id.slice(0, 8)}</div>
+      <div>Others here: {peers.length}</div>
+    </div>
+  );
+
+  if (presenceMode === 'off') return debugPanel || null;
 
   const peopleById = Object.fromEntries(peers.map((peer) => [peer.id, peer]));
   const pageWidth = document.documentElement.clientWidth;
@@ -286,6 +313,7 @@ const PresenceLayer = ({ view, raised = false }) => {
 
   return (
     <>
+      {debugPanel}
       {createPortal(
         <div aria-hidden="true" className="absolute left-0 top-0 h-0 w-0 z-30">
           {visible.map((cursor) => {

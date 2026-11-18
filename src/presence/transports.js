@@ -1,12 +1,13 @@
 /*
   How visitors find each other. Two interchangeable connections with the same shape:
 
-    const connection = await connect({ me, onPeers, onCursor })
+    const connection = await connect({ me, onPeers, onCursor, onStatus })
     connection.sendCursor(payload)
     connection.close()
 
   onPeers(list)   - everyone else currently on the site
   onCursor(data)  - a cursor update from someone else
+  onStatus(status, detail) - 'SUBSCRIBED' once live; 'CHANNEL_ERROR', 'TIMED_OUT' or 'CLOSED' if not
 
   "supabase": real visitors across the internet (needs the two env vars below).
   "local":    browser tabs on one machine. Used in development and the preview.
@@ -24,7 +25,7 @@ const toPeer = ({ id, name, color, joinedAt }) => ({ id, name, color, joinedAt }
 
 /* ---------- Supabase Realtime: Presence for who's here, Broadcast for cursors ---------- */
 
-const connectSupabase = async ({ me, onPeers, onCursor }) => {
+const connectSupabase = async ({ me, onPeers, onCursor, onStatus }) => {
   // Loaded only when presence is switched on, so it never weighs down the page otherwise
   const { createClient } = await import('@supabase/supabase-js');
   const client = createClient(SUPABASE_URL, SUPABASE_KEY, {
@@ -56,9 +57,15 @@ const connectSupabase = async ({ me, onPeers, onCursor }) => {
       () => {}
     );
 
-  channel.subscribe(async (status) => {
+  let tracked = false;
+  channel.subscribe(async (status, error) => {
+    onStatus(status, error?.message);
     // Presence is tracked once per visit; Supabase allows only a few presence calls per 30 seconds
-    if (status === 'SUBSCRIBED') await channel.track(toPeer(me));
+    if (status === 'SUBSCRIBED' && !tracked) {
+      tracked = true;
+      const result = await channel.track(toPeer(me));
+      if (result !== 'ok') onStatus('TRACK_FAILED', String(result));
+    }
   });
 
   return {
@@ -69,7 +76,7 @@ const connectSupabase = async ({ me, onPeers, onCursor }) => {
 
 /* ---------- Local: BroadcastChannel between tabs, with heartbeats ---------- */
 
-const connectLocal = async ({ me, onPeers, onCursor }) => {
+const connectLocal = async ({ me, onPeers, onCursor, onStatus }) => {
   if (typeof BroadcastChannel === 'undefined') return null;
   const channel = new BroadcastChannel(CHANNEL);
   const peers = new Map(); // id -> { peer, seen }
@@ -91,6 +98,7 @@ const connectLocal = async ({ me, onPeers, onCursor }) => {
   };
 
   post({ type: 'hello', id: me.id, peer: toPeer(me) });
+  setTimeout(() => onStatus('SUBSCRIBED'), 0);
 
   // Heartbeats keep the list honest if a tab closes without saying goodbye
   const heartbeat = setInterval(() => {
